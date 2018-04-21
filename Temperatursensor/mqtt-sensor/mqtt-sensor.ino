@@ -25,7 +25,7 @@ unsigned long lastMillis = 0;
 //define your default values here, if there are different values in config.json, they are overwritten.
 char mqtt_server[40];
 char mqtt_port[6] = "8080";
-char mqtt_topic[34] = "/home/wohnzimmer/temperatur";
+char mqtt_topic[34] = "home/wohnzimmer/temperatur";
 char mqtt_client[16] = "bme280-001";
 char mqtt_user[16] = "user";
 char mqtt_pass[16] = "pass";
