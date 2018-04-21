@@ -1,4 +1,6 @@
 .vscode
+secrets.yaml
+
 # Created by https://www.gitignore.io/api/kicad
 
 ### KiCad ###
