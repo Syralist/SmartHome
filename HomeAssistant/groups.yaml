@@ -3,6 +3,7 @@ default_view:
   icon: mdi:home
   entities:
     - group.wohnzimmer
+    - group.all_devices
 
 wohnzimmer:
   name: Wohnzimmer

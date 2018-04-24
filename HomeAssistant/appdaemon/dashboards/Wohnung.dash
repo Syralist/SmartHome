@@ -48,6 +48,13 @@ wohn_druck:
     units: "hPa"
     precision: 0
     entity: sensor.wohnzimmer_luftdruck
+
+thomas_anwesenheit:
+    widget_type: device_tracker
+    title: Thomas
+    title2: Handy
+    device: zaphod_thomashtc
     
 layout:
     - uhr(2x1), wetter(2x2), wohn_temperatur(1x1), wohn_feuchte(1x1), wohn_druck(1x1)
+    - thomas_anwesenheit(1x1)
