@@ -130,6 +130,17 @@ duckdns:
 device_tracker:
   - platform: owntracks
 
+telegram_bot:
+  - platform: polling
+    api_key: !secret telegram_apikey
+    allowed_chat_ids:
+      - !secret telegramm_group_id
+
+notify:
+  - name: JarvisNotifier
+    platform: telegram
+    chat_id: !secret telegramm_group_id
+
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
