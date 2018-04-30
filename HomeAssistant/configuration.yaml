@@ -101,6 +101,7 @@ sensor:
   - platform: mqtt
     name: "Wohnzimmer Luftdruck"
     unit_of_measurement: "hPa"
+    icon: mdi:gauge
     state_topic: "home/wohnzimmer/temperatur"
     value_template: '{{ value_json.press }}'
   - platform: mqtt
@@ -108,6 +109,23 @@ sensor:
     unit_of_measurement: "%"
     icon: mdi:water-percent
     state_topic: "home/wohnzimmer/temperatur"
+    value_template: '{{ value_json.humid }}'
+  - platform: mqtt
+    name: "Steffis Zimmer Temperatur"
+    unit_of_measurement: "°C"
+    state_topic: "home/steffiszimmer/temperatur"
+    value_template: '{{ value_json.temp }}'
+  - platform: mqtt
+    name: "Steffis Zimmer Luftdruck"
+    unit_of_measurement: "hPa"
+    icon: mdi:gauge
+    state_topic: "home/steffiszimmer/temperatur"
+    value_template: '{{ value_json.press }}'
+  - platform: mqtt
+    name: "Steffis Zimmer Luftfeuchtigkeit"
+    unit_of_measurement: "%"
+    icon: mdi:water-percent
+    state_topic: "home/steffiszimmer/temperatur"
     value_template: '{{ value_json.humid }}'
 
 # Text to speech

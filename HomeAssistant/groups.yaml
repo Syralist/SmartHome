@@ -3,6 +3,7 @@ default_view:
   icon: mdi:home
   entities:
     - group.wohnzimmer
+    - group.steffiszimmer
     - group.all_devices
 
 wohnzimmer:
@@ -12,3 +13,10 @@ wohnzimmer:
     - sensor.wohnzimmer_temperatur
     - sensor.wohnzimmer_luftfeuchtigkeit
     - sensor.wohnzimmer_luftdruck
+steffiszimmer:
+  name: Steffis Zimmer
+  icon: mdi:bed-empty
+  entities:
+    - sensor.steffis_zimmer_temperatur
+    - sensor.steffis_zimmer_luftfeuchtigkeit
+    - sensor.steffis_zimmer_luftdruck
