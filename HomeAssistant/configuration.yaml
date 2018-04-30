@@ -159,6 +159,13 @@ notify:
     platform: telegram
     chat_id: !secret telegramm_group_id
 
+hdmi_cec:
+  devices:
+    TV: 0.0.0.0
+    BlueRay Player: 1.0.0.0
+    Raspberry: 4.0.0.0
+
 group: !include groups.yaml
 automation: !include automations.yaml
 script: !include scripts.yaml
+scene: !include scenes.yaml

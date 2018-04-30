@@ -13,6 +13,8 @@ wohnzimmer:
     - sensor.wohnzimmer_temperatur
     - sensor.wohnzimmer_luftfeuchtigkeit
     - sensor.wohnzimmer_luftdruck
+    - scene.film_gucken
+
 steffiszimmer:
   name: Steffis Zimmer
   icon: mdi:bed-empty

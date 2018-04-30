@@ -1,0 +1,9 @@
+film_gucken:
+  alias: Film gucken
+  sequence:
+    - alias: Fernseher an
+      service: hdmi_cec.power_on
+    - alias: BlueRay auswählen
+      service: hdmi_cec.select_device
+      data:
+        device: BlueRay Player
