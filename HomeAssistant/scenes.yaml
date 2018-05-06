@@ -1,5 +1,4 @@
 - name: Film gucken
-  icon: mdi:popcorn
   entities:
     script.film_gucken:
       state: on

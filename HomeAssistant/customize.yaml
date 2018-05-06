@@ -1,2 +1,5 @@
 group.all_devices:
   hidden: false
+
+scene.film_gucken:
+  icon: mdi:popcorn

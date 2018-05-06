@@ -4,6 +4,7 @@ default_view:
   entities:
     - group.wohnzimmer
     - group.steffiszimmer
+    - group.thomaszimmer
     - group.all_devices
 
 wohnzimmer:
@@ -22,3 +23,9 @@ steffiszimmer:
     - sensor.steffis_zimmer_temperatur
     - sensor.steffis_zimmer_luftfeuchtigkeit
     - sensor.steffis_zimmer_luftdruck
+
+thomaszimmer:
+  name: Thomas Zimmer
+  icon: mdi:bed-empty
+  entities:
+    - switch.sonoff_rechner
