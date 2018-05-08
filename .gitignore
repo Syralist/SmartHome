@@ -1,5 +1,6 @@
 .vscode
 secrets.yaml
+google_calendars.yaml
 
 # Created by https://www.gitignore.io/api/kicad
 

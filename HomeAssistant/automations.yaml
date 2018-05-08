@@ -7,3 +7,13 @@
       data:
         topic: "home/thomaszimmer/sonoff/cmnd/POWER"
         payload: ""
+- alias: "Müllabfuhr-Benachrichtung"
+  trigger:
+    platform: state
+    entity_id: calendar.jarvis_muellabfuhr
+    to: "on"
+  action:
+    - service: notify.jarvisnotifier
+      data:
+        title: "Müllabfuhr-Benachrichtigung"
+        message: "Morgen wird {{ states.calendar.jarvis_muellabfuhr.attributes.description }} abgeholt!"

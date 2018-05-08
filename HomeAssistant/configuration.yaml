@@ -149,6 +149,11 @@ tts:
 # Cloud
 cloud:
 
+# Google
+google:
+  client_id: !secret google_id
+  client_secret: !secret google_secret
+
 # mqtt
 mqtt:
   broker: core-mosquitto
