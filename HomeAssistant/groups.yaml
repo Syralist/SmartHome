@@ -29,3 +29,6 @@ thomaszimmer:
   icon: mdi:bed-empty
   entities:
     - switch.sonoff_rechner
+    - sensor.thomas_zimmer_temperatur
+    - sensor.thomas_zimmer_luftfeuchtigkeit
+    - sensor.thomas_zimmer_luftdruck

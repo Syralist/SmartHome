@@ -127,6 +127,23 @@ sensor:
     icon: mdi:water-percent
     state_topic: "home/steffiszimmer/temperatur"
     value_template: '{{ value_json.humid }}'
+  - platform: mqtt
+    name: "Thomas' Zimmer Temperatur"
+    unit_of_measurement: "°C"
+    state_topic: "home/thomaszimmer/temperatur"
+    value_template: '{{ value_json.temp }}'
+  - platform: mqtt
+    name: "Thomas' Zimmer Luftdruck"
+    unit_of_measurement: "hPa"
+    icon: mdi:gauge
+    state_topic: "home/thomaszimmer/temperatur"
+    value_template: '{{ value_json.press }}'
+  - platform: mqtt
+    name: "Thomas' Zimmer Luftfeuchtigkeit"
+    unit_of_measurement: "%"
+    icon: mdi:water-percent
+    state_topic: "home/thomaszimmer/temperatur"
+    value_template: '{{ value_json.humid }}'
 
 switch:
   - platform: mqtt
