@@ -29,6 +29,7 @@ thomaszimmer:
   icon: mdi:bed-empty
   entities:
     - switch.sonoff_rechner
+    - switch.synology_nas
     - sensor.thomas_zimmer_temperatur
     - sensor.thomas_zimmer_luftfeuchtigkeit
     - sensor.thomas_zimmer_luftdruck

@@ -4,3 +4,9 @@ group.all_devices:
 
 scene.film_gucken:
   icon: mdi:popcorn
+
+switch.synology_nas:
+  icon: mdi:server-network
+
+switch.sonoff_rechner:
+  icon: mdi:monitor-multiple
