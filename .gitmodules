@@ -1,0 +1,3 @@
+[submodule "OpenMQTTGateway"]
+	path = OpenMQTTGateway
+	url = git@github.com:Syralist/OpenMQTTGateway.git
