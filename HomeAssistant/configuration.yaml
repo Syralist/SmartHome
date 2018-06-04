@@ -58,6 +58,10 @@ map:
 # Track the sun
 sun:
 
+# USV
+apcupsd:
+  host: a722577e-apcupsd
+
 # Weather prediction
 sensor:
   - platform: yr
@@ -144,6 +148,18 @@ sensor:
     icon: mdi:water-percent
     state_topic: "home/thomaszimmer/temperatur"
     value_template: '{{ value_json.humid }}'
+  - platform: apcupsd
+    resources:
+      - bcharge
+      - linev
+      - loadpct
+      - nominv
+      - nompower
+      - numxfers
+      - outputv
+      - status
+      - timeleft
+      - tonbatt
 
 switch:
   - platform: mqtt

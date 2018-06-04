@@ -33,3 +33,27 @@ thomaszimmer:
     - sensor.thomas_zimmer_temperatur
     - sensor.thomas_zimmer_luftfeuchtigkeit
     - sensor.thomas_zimmer_luftdruck
+    # - group.samsungprinter
+
+samsungprinter:
+  name: Drucker
+  icon: mdi:printer
+  control: hidden
+  view: yes
+  entities:
+    - sensor.samsung_clx3300_series_1921682100_toner_black
+    - sensor.samsung_clx3300_series_1921682100_toner_cyan
+    - sensor.samsung_clx3300_series_1921682100_toner_magenta
+    - sensor.samsung_clx3300_series_1921682100_toner_yellow
+
+ups:
+  name: USV
+  icon: mdi:flash
+  control: hidden
+  view: yes
+  entities:
+    - sensor.ups_status
+    - sensor.ups_battery
+    - sensor.ups_load
+    - sensor.ups_input_voltage
+    - sensor.ups_time_left

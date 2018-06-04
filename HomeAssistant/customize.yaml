@@ -1,6 +1,6 @@
 group.all_devices:
   hidden: false
-  name: Handyortung
+  friendly_name: Handyortung
 
 scene.film_gucken:
   icon: mdi:popcorn
@@ -10,3 +10,12 @@ switch.synology_nas:
 
 switch.sonoff_rechner:
   icon: mdi:monitor-multiple
+
+sensor.samsung_clx3300_series_1921682100_toner_black:
+  friendly_name: Schwarz
+sensor.samsung_clx3300_series_1921682100_toner_cyan:
+  friendly_name: Cyan
+sensor.samsung_clx3300_series_1921682100_toner_magenta:
+  friendly_name: Magenta
+sensor.samsung_clx3300_series_1921682100_toner_yellow:
+  friendly_name: Gelb
