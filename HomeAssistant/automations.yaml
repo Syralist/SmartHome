@@ -17,3 +17,13 @@
       data:
         title: "Müllabfuhr-Benachrichtigung"
         message: "Morgen wird {{ states.calendar.jarvis_muellabfuhr.attributes.description }} abgeholt!"
+- alias: "Stromausfall"
+  trigger:
+    platform: state
+    entity_id: sensor.ups_status
+    to: "ONBATT"
+  action:
+    - service: notify.jarvisnotifier
+      data:
+        title: "Stromausfall erkannt"
+        message: "Die Batterie hält ca. {{ states.sensor.ups_time_left.state | int() }} Minuten!"

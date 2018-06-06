@@ -49,6 +49,16 @@ conversation:
 # Enables support for tracking state changes over time
 history:
 
+# InfluxDB
+influxdb:
+  host: a0d7b954-influxdb
+  port: 8086
+  database: homeassistant
+  username: !secret mqtt_user
+  password: !secret mqtt_pass
+  max_retries: 3
+  default_measurement: state
+
 # View all events in a logbook
 logbook:
 
