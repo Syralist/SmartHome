@@ -71,7 +71,7 @@ tts
 # automatically downloaded dependencies
 deps
 lib
-www
+# www
 
 # Log files
 home-assistant.log

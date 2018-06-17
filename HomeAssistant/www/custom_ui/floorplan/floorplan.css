@@ -1,0 +1,184 @@
+/* SVG shapes */
+
+svg, svg * {
+  vector-effect: non-scaling-stroke !important;
+  pointer-events: all !important;
+}
+
+/* Hover over */
+
+.entity:hover {
+  stroke: #03A9F4 !important;
+  stroke-width: 1px !important;
+  stroke-opacity: 1 !important;
+}
+
+/* Bootstrap succsss */
+
+.success-text {
+  fill: #3c763d !important;
+}
+
+.success-background, .success-text-background {
+  fill: #dff0d8 !important;
+  fill-opacity: 1 !important;
+  stroke: #d6e9c6 !important;
+  stroke-width: 1px !important;
+}
+
+/* Bootstrap info */
+
+.info-text {
+  fill: #31708f !important;
+}
+
+.info-background, .info-text-background {
+  fill: #d9edf7 !important;
+  fill-opacity: 1 !important;
+  stroke: #bce8f1 !important;
+  stroke-width: 1px !important;
+}
+
+/* Bootstrap warning */
+
+.warning-text {
+  fill: #8a6d3b !important;
+}
+
+.warning-background, .warning-text-background  {
+  fill: #fcf8e3 !important;
+  fill-opacity: 1 !important;
+  stroke: #faebcc !important;
+  stroke-width: 1px !important;
+}
+
+/* Bootstrap danger */
+
+.danger-text {
+  fill: #a94442 !important;
+}
+
+.danger-background, .danger-text-background {
+  fill: #f2dede !important;
+  fill-opacity: 1 !important;
+  stroke: #ebccd1 !important;
+  stroke-width: 1px !important;
+}
+
+/* Last motion entity */
+
+.last-motion {
+  stroke: #808080 !important;
+  stroke-width: 1px !important;
+  stroke-opacity: 1 !important;
+}
+
+/* Alarm Panel */
+
+.alarm-disarmed {
+  fill: #3c763d !important;
+}
+
+.alarm-armed {
+  fill: #8a6d3b !important;
+}
+
+/* Camera */
+
+.camera-idle {
+/*  fill: #B9CEF7 !important; */
+  fill: #6FAECE !important;
+}
+
+/* Light */
+
+.light-off {
+  fill: #C3B7F4 !important;
+}
+
+.light-on {
+  fill: #F8D2B9 !important;
+}
+
+/* Computer Switches */
+
+.computer-off {
+  fill: #f51515 !important;
+}
+
+.computer-on {
+  fill: #03a00b !important;
+}
+
+/* Temperature sensor */
+
+.temp-low{
+  stroke: #2bb5fa !important;
+  fill: #2bb5fa !important;
+  fill-opacity: 1 !important;
+}
+
+.temp-medium{
+  stroke: #008000 !important;
+  fill: #008000 !important;
+  fill-opacity: 1 !important;
+}
+
+.temp-high{
+  stroke: #fcac18 !important;
+  fill: #fcac18 !important;
+  fill-opacity: 1 !important;
+}
+
+.temp-low-background {
+  fill: #d9edf7 !important;
+  fill-opacity: 0 !important;
+}
+
+.temp-medium-background {
+  fill: #dcefe8 !important;
+  fill-opacity: 0 !important;
+}
+
+.temp-high-background {
+  fill: #dff0d8 !important;
+  fill-opacity: 0 !important;
+}
+
+/* Humidity sensor */
+
+.humid-nok{
+  stroke: #2bb5fa !important;
+  fill: #2bb5fa !important;
+  fill-opacity: 1 !important;
+}
+
+.humid-ok{
+  stroke: #008000 !important;
+  fill: #008000 !important;
+  fill-opacity: 1 !important;
+}
+
+/* Pressure sensor */
+
+.press-nok{
+  stroke: #2bb5fa !important;
+  fill: #2bb5fa !important;
+  fill-opacity: 1 !important;
+}
+
+.press-ok{
+  stroke: #008000 !important;
+  fill: #008000 !important;
+  fill-opacity: 1 !important;
+}
+
+/* Media player */
+
+.squeezebox-off {
+  fill: #8AA8A7 !important;
+}
+
+.squeezebox-on {
+  fill: #2baaa6 !important;
+}
