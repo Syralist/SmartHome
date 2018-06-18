@@ -192,6 +192,18 @@ switch:
     payload_available: "Online"
     payload_not_available: "Offline"
     retain: true
+  - platform: mqtt
+    name: "Sonoff Keller"
+    state_topic: "home/keller/sonoff/stat/RESULT" #"stat/sonoff/POWER"
+    value_template: '{{ value_json["POWER"] }}'
+    command_topic: "home/keller/sonoff/cmnd/POWER" #"cmnd/sonoff/POWER"
+    availability_topic: "home/keller/sonoff/tele/LWT" #"tele/sonoff/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: true
   - platform: wake_on_lan
     mac_address: "00-11-32-37-21-3D"
     name: "Synology NAS"

@@ -27,3 +27,21 @@
       data:
         title: "Stromausfall erkannt"
         message: "Die Batterie hält ca. {{ states.sensor.ups_time_left.state | int() }} Minuten!"
+- alias: "Rechner einschalten"
+  trigger:
+    platform: mqtt
+    topic: home/thomaszimmer/temperatur/button
+    payload: 'clicked'
+  action:
+    service: switch.turn_on
+    data:
+      entity_id: switch.sonoff_rechner
+- alias: "Rechner ausschalten"
+  trigger:
+    platform: mqtt
+    topic: home/thomaszimmer/temperatur/button
+    payload: 'held'
+  action:
+    service: switch.turn_off
+    data:
+      entity_id: switch.sonoff_rechner
