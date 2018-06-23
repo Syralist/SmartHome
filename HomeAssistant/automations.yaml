@@ -45,3 +45,12 @@
     service: switch.turn_off
     data:
       entity_id: switch.sonoff_rechner
+- alias: "Thomas geht schlafen"
+  trigger:
+    platform: mqtt
+    topic: home/thomaszimmer/temperatur/button
+    payload: 'heldLong'
+  action:
+    service: switch.turn_off
+    data:
+      entity_id: group.thomaszimmer

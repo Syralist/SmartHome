@@ -221,6 +221,8 @@ void setup() {
   connect();
 
   button.begin();
+  button.holdTime(5000);
+  button.longHoldTime(8000);
 
 }
 
@@ -237,8 +239,11 @@ void loop() {
   if(button.clicked()) {
     client.publish(mqtt_button, "clicked");
   }
-  if(button.heldLong()) {
+  if(button.held()) {
     client.publish(mqtt_button, "held");
+  }
+  if(button.heldLong()) {
+    client.publish(mqtt_button, "heldLong");
   }
 
   // publish a message roughly every second.
