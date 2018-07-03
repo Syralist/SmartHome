@@ -27,6 +27,13 @@ panel_custom:
     url_path: floorplan
     config: !include floorplan.yaml
 
+# TasmoAdmin
+panel_iframe:
+  tasmoadmin:
+    title: TasmoAdmin
+    icon: mdi:lightbulb-on
+    url: http://192.168.2.130:9541
+
 # Enables configuration UI
 config:
 
