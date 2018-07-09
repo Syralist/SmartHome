@@ -5,6 +5,7 @@ default_view:
     - group.wohnzimmer
     - group.steffiszimmer
     - group.thomaszimmer
+    - group.keller
     - group.all_devices
 
 wohnzimmer:
@@ -34,6 +35,25 @@ thomaszimmer:
     - sensor.thomas_zimmer_luftfeuchtigkeit
     - sensor.thomas_zimmer_luftdruck
     # - group.samsungprinter
+
+keller:
+  name: Keller
+  icon: mdi:stairs
+  entities:
+    - switch.sonoff_keller
+    - switch.sonoff_waschmaschine
+    - group.waschmaschine
+
+waschmaschine:
+  name: Waschmaschine
+  icon: mdi:washing-machine
+  control: hidden
+  entities:
+    - binary_sensor.waschmaschine
+    - sensor.waschmaschine_leistung
+    - sensor.waschmaschine_energie
+    - sensor.waschmaschine_spannung
+    - sensor.waschmaschine_strom
 
 samsungprinter:
   name: Drucker

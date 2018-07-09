@@ -11,6 +11,12 @@ switch.synology_nas:
 switch.sonoff_rechner:
   icon: mdi:monitor-multiple
 
+switch.sonoff_waschmaschine:
+  icon: mdi:washing-machine
+
+switch.sonoff_keller:
+  icon: mdi:battery-charging-80
+
 sensor.samsung_clx3300_series_1921682100_toner_black:
   friendly_name: Schwarz
 sensor.samsung_clx3300_series_1921682100_toner_cyan:

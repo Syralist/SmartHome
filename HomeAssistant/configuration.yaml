@@ -185,6 +185,33 @@ sensor:
       - status
       - timeleft
       - tonbatt
+  - platform: mqtt
+    name: "Waschmaschine Energie"
+    state_topic: "home/keller/waschmaschine/tele/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Today"] }}'
+    unit_of_measurement: "kWh"
+  - platform: mqtt
+    name: "Waschmaschine Leistung"
+    state_topic: "home/keller/waschmaschine/tele/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Power"] }}'
+    unit_of_measurement: "W"
+  - platform: mqtt
+    name: "Waschmaschine Spannung"
+    state_topic: "home/keller/waschmaschine/tele/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Voltage"] }}'
+    unit_of_measurement: "V"
+  - platform: mqtt
+    name: "Waschmaschine Strom"
+    state_topic: "home/keller/waschmaschine/tele/SENSOR"
+    value_template: '{{ value_json["ENERGY"]["Current"] }}'
+    unit_of_measurement: "A"
+
+binary_sensor:
+  - platform: template
+    sensors:
+      waschmaschine:
+        friendly_name: "Waschmaschine läuft"
+        value_template: "{{ states('sensor.waschmaschine_leistung')|float > 1.0 }}"
 
 switch:
   - platform: mqtt
@@ -219,6 +246,18 @@ switch:
       service: shell_command.turn_off_nas
       data:
         secret_url: !secret syno_cmd_url
+  - platform: mqtt
+    name: "Sonoff Waschmaschine"
+    state_topic: "home/keller/waschmaschine/stat/RESULT" #"stat/sonoff/POWER"
+    value_template: '{{ value_json["POWER"] }}'
+    command_topic: "home/keller/waschmaschine/cmnd/POWER" #"cmnd/sonoff/POWER"
+    availability_topic: "home/keller/waschmaschine/tele/LWT" #"tele/sonoff/LWT"
+    qos: 1
+    payload_on: "ON"
+    payload_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    retain: true
 
 shell_command:
   turn_off_nas: 'curl {{ secret_url }}'
