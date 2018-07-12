@@ -2,8 +2,11 @@ film_gucken:
   alias: Film gucken
   sequence:
     - alias: Fernseher an
-      service: hdmi_cec.power_on
-    - alias: BlueRay auswählen
-      service: hdmi_cec.select_device
+      service: media_player.turn_on
       data:
-        device: BlueRay Player
+        entity_id: media_player.fernseher
+    - alias: BlueRay auswählen
+      service: media_player.select_source
+      data:
+        entity_id: media_player.fernseher
+        source: HDMI 1

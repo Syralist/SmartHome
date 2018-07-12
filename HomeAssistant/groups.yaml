@@ -16,6 +16,7 @@ wohnzimmer:
     - sensor.wohnzimmer_luftfeuchtigkeit
     - sensor.wohnzimmer_luftdruck
     - scene.film_gucken
+    - media_player.fernseher
 
 steffiszimmer:
   name: Steffis Zimmer

@@ -266,6 +266,12 @@ shell_command:
 tts:
   - platform: google
 
+# Media Players
+media_player:
+  - platform: braviatv
+    host: 192.168.2.100
+    name: Fernseher
+
 # Cloud
 cloud:
 
