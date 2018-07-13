@@ -223,6 +223,8 @@ binary_sensor:
         value_template: "{{ states('sensor.waschmaschine_leistung')|float > 2.0 }}"
         delay_off:
           minutes: 3
+        delay_on:
+          minutes: 3
   - platform: iss
 
 switch:
