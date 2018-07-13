@@ -32,7 +32,7 @@ panel_iframe:
   tasmoadmin:
     title: TasmoAdmin
     icon: mdi:lightbulb-on
-    url: http://192.168.2.130:9541
+    url: https://192.168.2.130:9541
 
 # Enables configuration UI
 config:
@@ -190,28 +190,40 @@ sensor:
     state_topic: "home/keller/waschmaschine/tele/SENSOR"
     value_template: '{{ value_json["ENERGY"]["Today"] }}'
     unit_of_measurement: "kWh"
+    icon: mdi:gauge
   - platform: mqtt
     name: "Waschmaschine Leistung"
     state_topic: "home/keller/waschmaschine/tele/SENSOR"
     value_template: '{{ value_json["ENERGY"]["Power"] }}'
     unit_of_measurement: "W"
+    icon: mdi:gauge-full
   - platform: mqtt
     name: "Waschmaschine Spannung"
     state_topic: "home/keller/waschmaschine/tele/SENSOR"
     value_template: '{{ value_json["ENERGY"]["Voltage"] }}'
     unit_of_measurement: "V"
+    icon: mdi:gauge-low
   - platform: mqtt
     name: "Waschmaschine Strom"
     state_topic: "home/keller/waschmaschine/tele/SENSOR"
     value_template: '{{ value_json["ENERGY"]["Current"] }}'
     unit_of_measurement: "A"
+    icon: mdi:gauge-empty
+  - platform: systemmonitor
+    resources:
+      - type: memory_use_percent
+      - type: processor_use
+      - type: since_last_boot
 
 binary_sensor:
   - platform: template
     sensors:
       waschmaschine:
         friendly_name: "Waschmaschine läuft"
-        value_template: "{{ states('sensor.waschmaschine_leistung')|float > 1.0 }}"
+        value_template: "{{ states('sensor.waschmaschine_leistung')|float > 2.0 }}"
+        delay_off:
+          minutes: 3
+  - platform: iss
 
 switch:
   - platform: mqtt
@@ -272,6 +284,13 @@ media_player:
     host: 192.168.2.100
     name: Fernseher
 
+# ISS Location
+camera:
+  - platform: generic
+    name: ISS
+    still_image_url: http://staticmap.openstreetmap.de/staticmap.php?center={{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}&zoom=4&size=865x512&maptype=mapnik&markers={{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }},lightblue
+    limit_refetch_to_url_change: true
+
 # Cloud
 cloud:
 
@@ -292,6 +311,13 @@ duckdns:
 
 device_tracker:
   - platform: owntracks
+
+zone:
+  - name: Arbeit
+    latitude: 53.1363124
+    longitude:  8.6853710
+    radius: 1900
+    icon: mdi:office-building
 
 telegram_bot:
   - platform: polling

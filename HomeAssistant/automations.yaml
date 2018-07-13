@@ -30,11 +30,25 @@
     platform: state
     entity_id: sensor.ups_status
     to: "ONBATT"
+    for:
+      seconds: 30
   action:
     - service: notify.jarvisnotifier
       data:
         title: "Stromausfall erkannt"
         message: "Die Batterie hält ca. {{ states.sensor.ups_time_left.state | int() }} Minuten!"
+- alias: "Wäsche ist fertig"
+  trigger:
+    platform: state
+    entity_id: binary_sensor.waschmaschine
+    to: "off"
+    for:
+      minutes: 2
+  action:
+    - service: notify.jarvisnotifier
+      data:
+        title: "Wäsche ist fertig"
+        message: "Die Waschmaschine ist seit 5 Minuten aus."
 - alias: "Rechner einschalten"
   trigger:
     platform: mqtt

@@ -56,16 +56,31 @@ waschmaschine:
     - sensor.waschmaschine_spannung
     - sensor.waschmaschine_strom
 
+systeminfo:
+  name: System Informationen
+  icon: mdi:raspberrypi
+  view: yes
+  entities:
+    - group.samsungprinter
+    - group.systempi
+
 samsungprinter:
   name: Drucker
   icon: mdi:printer
   control: hidden
-  view: yes
   entities:
-    - sensor.samsung_clx3300_series_1921682100_toner_black
-    - sensor.samsung_clx3300_series_1921682100_toner_cyan
-    - sensor.samsung_clx3300_series_1921682100_toner_magenta
-    - sensor.samsung_clx3300_series_1921682100_toner_yellow
+    - sensor.samsung_clx3300_series_1921682108_toner_black
+    - sensor.samsung_clx3300_series_1921682108_toner_cyan
+    - sensor.samsung_clx3300_series_1921682108_toner_magenta
+    - sensor.samsung_clx3300_series_1921682108_toner_yellow
+
+systempi:
+  name: Raspberry Host
+  icon: mdi:raspberrypi
+  entities:
+    - sensor.memory_use_percent
+    - sensor.processor_use
+    - sensor.since_last_boot
 
 ups:
   name: USV
@@ -78,3 +93,10 @@ ups:
     - sensor.ups_load
     - sensor.ups_input_voltage
     - sensor.ups_time_left
+
+iss:
+  name: International Space Station
+  icon: mdi:death-star-variant
+  view: yes
+  entities:
+    - camera.iss
