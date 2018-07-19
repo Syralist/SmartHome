@@ -1,4 +1,4 @@
 - name: Film gucken
   entities:
-    script.film_gucken:
-      state: on
+    media_player.fernseher:
+      source: HDMI 1

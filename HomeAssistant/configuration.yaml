@@ -295,6 +295,14 @@ camera:
 
 # Cloud
 cloud:
+  alexa:
+    filter:
+      include_domains:
+        - switch
+        - scene
+        - cover
+        - light
+        - media_player
 
 # Google
 google:
