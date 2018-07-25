@@ -12,6 +12,7 @@ wohnzimmer:
   name: Wohnzimmer
   icon: mdi:sofa
   entities:
+    - light.wohnzimmer
     - sensor.wohnzimmer_temperatur
     - sensor.wohnzimmer_luftfeuchtigkeit
     - sensor.wohnzimmer_luftdruck

@@ -276,6 +276,10 @@ switch:
 shell_command:
   turn_off_nas: 'curl {{ secret_url }}'
 
+eufy:
+  username: !secret eufy_user
+  password: !secret eufy_pass
+
 # Text to speech
 tts:
   - platform: google
