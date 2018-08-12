@@ -1,8 +1,15 @@
 media_player.kd55xe9005:
+  config_entry_id:
   name:
   platform: cast
   unique_id: 7db010c1-6bb1-7818-4fae-af164704bc70
 light.wohnzimmer:
+  config_entry_id:
   name:
   platform: eufy
   unique_id: 192.168.2.146
+light.wohnzimmer_2:
+  config_entry_id:
+  name:
+  platform: eufy
+  unique_id: 192.168.2.102

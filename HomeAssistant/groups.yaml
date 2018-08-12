@@ -6,7 +6,6 @@ default_view:
     - group.steffiszimmer
     - group.thomaszimmer
     - group.keller
-    - group.all_devices
 
 wohnzimmer:
   name: Wohnzimmer
