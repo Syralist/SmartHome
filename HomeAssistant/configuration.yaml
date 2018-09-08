@@ -65,6 +65,19 @@ conversation:
 # Enables support for tracking state changes over time
 history:
 
+# reduce DB size by configuring the recorder component
+recorder:
+  purge_keep_days: 1
+  purge_interval: 1
+  exclude:
+    domains:
+      - automation
+      - weblink
+      - updater
+    entities:
+      - sun.sun
+      - sensor.date
+
 # InfluxDB
 influxdb:
   host: a0d7b954-influxdb

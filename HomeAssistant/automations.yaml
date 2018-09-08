@@ -76,3 +76,28 @@
     service: switch.turn_off
     data:
       entity_id: group.thomaszimmer
+- alias: "Wöchentliches Backup"
+  trigger:
+    platform: time
+    at: "01:00:00"
+  condition:
+    condition: time
+    weekday:
+      - mon
+  action:
+    - service: hassio.snapshot_full
+      data_template:
+        name: Automated Backup {{ now().strftime('%Y-%m-%d') }}
+- alias: "Backup hochladen"
+  trigger:
+    platform: time
+    at: "02:00:00"
+  condition:
+    condition: time
+    weekday:
+      - mon
+  action:
+    - service: hassio.addon_stdin
+      data:
+        addon: 7be23ff5_dropbox_sync
+        input: {"command":"upload"}
