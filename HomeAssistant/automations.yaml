@@ -101,3 +101,69 @@
       data:
         addon: 7be23ff5_dropbox_sync
         input: {"command":"upload"}
+- alias: "Jarvis: Menü anzeigen"
+  trigger:
+    platform: event
+    event_type: telegram_command
+    event_data:
+      command: '/jarvis'
+  action:
+    - service: notify.jarvisnotifier
+      data:
+        message: 'Bitte wählen Sie:'
+        data:
+          inline_keyboard:
+            - '/wohnzimmer'
+            - '/keller'
+            - '/steffi'
+            - '/thomas'
+- alias: "Jarvis: Keller Info"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      data: '/keller'
+  action:
+    - service: notify.jarvisnotifier
+      data:
+        message: |
+          Die Waschmaschine {% if is_state("binary_sensor.waschmaschine", "on") -%}
+          läuft {% set zeit = (as_timestamp(now())-as_timestamp(states.binary_sensor.waschmaschine.last_updated)) / 60 %}
+          {% if zeit < 60 -%}
+          seit {{zeit}} Minuten.
+          {%- else -%}
+          seit {{ ( zeit / 60 ) | int }} Stunden, {{ ( zeit - ( ( zeit / 60 ) | int ) * 60 ) | int }} Minuten.
+          {%- endif %}
+          {%- else -%}
+          ist aus.
+          {%- endif %}
+- alias: "Jarvis: Wohnzimmer Info"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      data: '/wohnzimmer'
+  action:
+    - service: notify.jarvisnotifier
+      data:
+        message: "Im Wohnzimmer sind {{states.sensor.wohnzimmer_temperatur.state_with_unit}}."
+- alias: "Jarvis: Thomas Info"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      data: '/thomas'
+  action:
+    - service: notify.jarvisnotifier
+      data_template:
+        message: "Bei Thomas sind {{states.sensor.thomas_zimmer_temperatur.state_with_unit}}."
+- alias: "Jarvis: Steffi Info"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      data: '/steffi'
+  action:
+    - service: notify.jarvisnotifier
+      data:
+        message: "Bei Steffi sind {{states.sensor.steffis_zimmer_temperatur.state_with_unit}}."

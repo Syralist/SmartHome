@@ -380,17 +380,13 @@ telegram_bot:
     api_key: !secret telegram_apikey
     allowed_chat_ids:
       - !secret telegramm_group_id
+      - !secret telegramm_thomas_id
+      - !secret telegramm_steffi_id
 
 notify:
   - name: JarvisNotifier
     platform: telegram
     chat_id: !secret telegramm_group_id
-
-hdmi_cec:
-  devices:
-    TV: 0.0.0.0
-    BlueRay Player: 1.0.0.0
-    Raspberry: 4.0.0.0
 
 group: !include groups.yaml
 automation: !include automations.yaml
