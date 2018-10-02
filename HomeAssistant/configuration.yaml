@@ -78,15 +78,15 @@ recorder:
       - sun.sun
       - sensor.date
 
-# InfluxDB
-influxdb:
-  host: a0d7b954-influxdb
-  port: 8086
-  database: homeassistant
-  username: !secret mqtt_user
-  password: !secret mqtt_pass
-  max_retries: 3
-  default_measurement: state
+# # InfluxDB
+# influxdb:
+#   host: a0d7b954-influxdb
+#   port: 8086
+#   database: homeassistant
+#   username: !secret mqtt_user
+#   password: !secret mqtt_pass
+#   max_retries: 3
+#   default_measurement: state
 
 # View all events in a logbook
 logbook:
@@ -329,7 +329,7 @@ tts:
 # Media Players
 media_player:
   - platform: braviatv
-    host: 192.168.2.100
+    host: 192.168.2.107
     name: Fernseher
 
 # ISS Location
@@ -339,16 +339,16 @@ camera:
     still_image_url: http://staticmap.openstreetmap.de/staticmap.php?center={{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }}&zoom=4&size=865x512&maptype=mapnik&markers={{ states.binary_sensor.iss.attributes.lat }},{{ states.binary_sensor.iss.attributes.long }},lightblue
     limit_refetch_to_url_change: true
 
-# Cloud
-cloud:
-  alexa:
-    filter:
-      include_domains:
-        - switch
-        - scene
-        - cover
-        - light
-        - media_player
+# # Cloud
+# cloud:
+#   alexa:
+#     filter:
+#       include_domains:
+#         - switch
+#         - scene
+#         - cover
+#         - light
+#         - media_player
 
 # Google
 google:
@@ -366,7 +366,12 @@ duckdns:
   access_token: !secret ducktoken
 
 device_tracker:
-  - platform: owntracks
+  - platform: nmap_tracker
+    hosts: 192.168.2.0/24
+    home_interval: 10
+    exclude:
+      - 192.168.2.151
+      - 192.168.2.130
 
 zone:
   - name: Arbeit

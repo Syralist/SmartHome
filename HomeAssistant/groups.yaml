@@ -6,6 +6,7 @@ default_view:
     - group.steffiszimmer
     - group.thomaszimmer
     - group.keller
+    - group.anwesenheit
 
 wohnzimmer:
   name: Wohnzimmer
@@ -55,6 +56,12 @@ waschmaschine:
     - sensor.waschmaschine_energie
     - sensor.waschmaschine_spannung
     - sensor.waschmaschine_strom
+
+anwesenheit:
+  name: Anwesenheit
+  entities:
+    - device_tracker.90e7c4c96f84
+    - device_tracker.dcee06e237eb
 
 systeminfo:
   name: System Informationen
