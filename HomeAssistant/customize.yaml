@@ -17,20 +17,20 @@ switch.sonoff_waschmaschine:
 binary_sensor.waschmaschine:
   icon: mdi:washing-machine
 
+binary_sensor.fenster_kueche:
+  device_class: window
+
+binary_sensor.fenster_steffi:
+  device_class: window
+
+binary_sensor.fenster_wohnzimmer:
+  device_class: door
+
+binary_sensor.fenster_thomas:
+  device_class: door
+
 switch.sonoff_keller:
   icon: mdi:battery-charging-80
-
-binary_sensor.fenster_1:
-  friendly_name: Steffi
-
-binary_sensor.fenster_2:
-  friendly_name: Thomas
-
-binary_sensor.fenster_3:
-  friendly_name: Wohnzimmer
-
-binary_sensor.fenster_4:
-  friendly_name: Küche
 
 sensor.samsung_clx3300_series_1921682100_toner_black:
   friendly_name: Schwarz

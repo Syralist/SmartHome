@@ -7,6 +7,13 @@ default_view:
     - group.thomaszimmer
     - group.keller
     - group.anwesenheit
+    - group.kueche
+
+kueche:
+  name: Küche
+  icon: mdi:fridge-filled
+  entities:
+    - binary_sensor.fenster_kueche
 
 wohnzimmer:
   name: Wohnzimmer
@@ -18,6 +25,7 @@ wohnzimmer:
     - sensor.wohnzimmer_luftdruck
     - scene.film_gucken
     - media_player.fernseher
+    - binary_sensor.fenster_wohnzimmer
 
 steffiszimmer:
   name: Steffis Zimmer
@@ -26,6 +34,7 @@ steffiszimmer:
     - sensor.steffis_zimmer_temperatur
     - sensor.steffis_zimmer_luftfeuchtigkeit
     - sensor.steffis_zimmer_luftdruck
+    - binary_sensor.fenster_steffi
 
 thomaszimmer:
   name: Thomas Zimmer
@@ -36,6 +45,7 @@ thomaszimmer:
     - sensor.thomas_zimmer_temperatur
     - sensor.thomas_zimmer_luftfeuchtigkeit
     - sensor.thomas_zimmer_luftdruck
+    - binary_sensor.fenster_thomas
     # - group.samsungprinter
 
 keller:
@@ -60,8 +70,8 @@ waschmaschine:
 anwesenheit:
   name: Anwesenheit
   entities:
-    - device_tracker.90e7c4c96f84
     - device_tracker.dcee06e237eb
+    - device_tracker.a028edd9f84c
 
 systeminfo:
   name: System Informationen
