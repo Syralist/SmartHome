@@ -15,9 +15,11 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 
+// #define HASBUTTON
+#ifdef HASBUTTON
 #include <PMButton.h>
-
 PMButton button(D3);
+#endif
 
 Adafruit_BME280 bme; // I2C
 
@@ -30,7 +32,9 @@ unsigned long lastMillis = 0;
 char mqtt_server[40];
 char mqtt_port[6] = "8080";
 char mqtt_topic[34] = "home/wohnzimmer/temperatur";
+#ifdef HASBUTTON
 char mqtt_button[50] = "home/wohnzimmer/temperatur/button";
+#endif
 char mqtt_client[16] = "bme280-001";
 char mqtt_user[16] = "user";
 char mqtt_pass[16] = "pass";
@@ -101,8 +105,10 @@ void setup() {
           strcpy(mqtt_server, json["mqtt_server"]);
           strcpy(mqtt_port, json["mqtt_port"]);
           strcpy(mqtt_topic, json["mqtt_topic"]);
+#ifdef HASBUTTON
           strcpy(mqtt_button, json["mqtt_topic"]);
           sprintf(mqtt_button, "%s%s", mqtt_topic, "/button");
+#endif
           strcpy(mqtt_client, json["mqtt_client"]);
           strcpy(mqtt_user, json["mqtt_user"]);
           strcpy(mqtt_pass, json["mqtt_pass"]);
@@ -176,8 +182,10 @@ void setup() {
   strcpy(mqtt_server, custom_mqtt_server.getValue());
   strcpy(mqtt_port, custom_mqtt_port.getValue());
   strcpy(mqtt_topic, custom_mqtt_topic.getValue());
+#ifdef HASBUTTON
   strcpy(mqtt_button, custom_mqtt_topic.getValue());
   sprintf(mqtt_button, "%s%s", mqtt_topic, "/button");
+#endif
   strcpy(mqtt_client, custom_mqtt_client.getValue());
   strcpy(mqtt_user, custom_mqtt_user.getValue());
   strcpy(mqtt_pass, custom_mqtt_pass.getValue());
@@ -220,9 +228,11 @@ void setup() {
 
   connect();
 
+#ifdef HASBUTTON
   button.begin();
   button.holdTime(5000);
   button.longHoldTime(8000);
+#endif
 
 }
 
@@ -235,6 +245,7 @@ void loop() {
     connect();
   }
 
+#ifdef HASBUTTON
   button.checkSwitch();
   if(button.clicked()) {
     client.publish(mqtt_button, "clicked");
@@ -245,9 +256,10 @@ void loop() {
   if(button.heldLong()) {
     client.publish(mqtt_button, "heldLong");
   }
+#endif
 
-  // publish a message roughly every second.
-  if (millis() - lastMillis > 5000) {
+  // publish a message roughly every minute.
+  if (millis() - lastMillis > 60000) {
     lastMillis = millis();
     DynamicJsonBuffer jsonBuffer;
     JsonObject& json = jsonBuffer.createObject();
