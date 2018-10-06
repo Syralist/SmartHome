@@ -117,6 +117,7 @@
             - '/keller'
             - '/steffi'
             - '/thomas'
+            - '/küche'
 - alias: "Jarvis: Keller Info"
   trigger:
     platform: event
@@ -130,7 +131,7 @@
           Die Waschmaschine {% if is_state("binary_sensor.waschmaschine", "on") -%}
           läuft {% set zeit = (as_timestamp(now())-as_timestamp(states.binary_sensor.waschmaschine.last_updated)) / 60 %}
           {% if zeit < 60 -%}
-          seit {{zeit}} Minuten.
+          seit {{zeit | int}} Minuten.
           {%- else -%}
           seit {{ ( zeit / 60 ) | int }} Stunden, {{ ( zeit - ( ( zeit / 60 ) | int ) * 60 ) | int }} Minuten.
           {%- endif %}
@@ -146,7 +147,9 @@
   action:
     - service: notify.jarvisnotifier
       data:
-        message: "Im Wohnzimmer sind {{states.sensor.wohnzimmer_temperatur.state_with_unit}}."
+        message: |
+          Im Wohnzimmer sind {{states.sensor.wohnzimmer_temperatur.state_with_unit}}.
+          Die Tür ist {% if is_state("binary_sensor.fenster_wohnzimmer", "on") -%} offen {%- else -%} geschlossen {%- endif %}.
 - alias: "Jarvis: Thomas Info"
   trigger:
     platform: event
@@ -156,7 +159,9 @@
   action:
     - service: notify.jarvisnotifier
       data_template:
-        message: "Bei Thomas sind {{states.sensor.thomas_zimmer_temperatur.state_with_unit}}."
+        message: |
+          Bei Thomas sind {{states.sensor.thomas_zimmer_temperatur.state_with_unit}}.
+          Die Tür ist {% if is_state("binary_sensor.fenster_thomas", "on") -%} offen {%- else -%} geschlossen {%- endif %}.
 - alias: "Jarvis: Steffi Info"
   trigger:
     platform: event
@@ -166,4 +171,17 @@
   action:
     - service: notify.jarvisnotifier
       data:
-        message: "Bei Steffi sind {{states.sensor.steffis_zimmer_temperatur.state_with_unit}}."
+        message: |
+          Bei Steffi sind {{states.sensor.steffis_zimmer_temperatur.state_with_unit}}.
+          Das Fenster ist {% if is_state("binary_sensor.fenster_steffi", "on") -%} offen {%- else -%} geschlossen {%- endif %}.
+- alias: "Jarvis: Küchen Info"
+  trigger:
+    platform: event
+    event_type: telegram_callback
+    event_data:
+      data: '/küche'
+  action:
+    - service: notify.jarvisnotifier
+      data:
+        message: |
+          Das Fenster ist {% if is_state("binary_sensor.fenster_kueche", "on") -%} offen {%- else -%} geschlossen {%- endif %}.
