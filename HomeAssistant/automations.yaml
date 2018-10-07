@@ -64,9 +64,50 @@
     topic: home/thomaszimmer/temperatur/button
     payload: 'held'
   action:
-    service: switch.turn_off
-    data:
-      entity_id: switch.sonoff_rechner
+    - service: switch.turn_off
+      data:
+        entity_id: switch.steffi_desktop
+    - service: input_boolean.turn_on
+      data:
+        entity_id: input_boolean.rechner_ausschalten
+- alias: "Steckerleiste ausschalten1"
+  trigger:
+    - platform: state
+      entity_id: switch.steffi_desktop
+      from: "on"
+      to: "off"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: input_boolean.rechner_ausschalten
+        state: "on"
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.sonoff_rechner
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.rechner_ausschalten
+- alias: "Steckerleiste ausschalten2"
+  trigger:
+    - platform: state
+      entity_id: input_boolean.rechner_ausschalten
+      from: "off"
+      to: "on"
+  condition:
+    condition: and
+    conditions:
+      - condition: state
+        entity_id: switch.steffi_desktop
+        state: "off"
+  action:
+    - service: switch.turn_off
+      data:
+        entity_id: switch.sonoff_rechner
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.rechner_ausschalten
 - alias: "Thomas geht schlafen"
   trigger:
     platform: mqtt

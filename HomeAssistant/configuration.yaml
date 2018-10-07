@@ -361,6 +361,10 @@ binary_sensor:
           minutes: 3
   - platform: iss
 
+input_boolean:
+  rechner_ausschalten:
+    name: Rechner Ausschalten
+
 switch:
   - platform: mqtt
     name: "Sonoff Rechner"
@@ -394,6 +398,14 @@ switch:
       service: shell_command.turn_off_nas
       data:
         secret_url: !secret syno_cmd_url
+  - platform: wake_on_lan
+    mac_address: "BC-5F-F4-59-14-77"
+    name: "Steffi Desktop"
+    host: "192.168.2.111"
+    turn_off:
+      service: shell_command.hibernate_steffidesktop
+      data:
+        password: !secret http_password
   - platform: mqtt
     name: "Sonoff Waschmaschine"
     state_topic: "home/keller/waschmaschine/stat/RESULT" #"stat/sonoff/POWER"
@@ -409,6 +421,9 @@ switch:
 
 shell_command:
   turn_off_nas: 'curl {{ secret_url }}'
+  shutdown_steffidesktop: 'curl -u User:{{password}} -k http://192.168.2.111:8000/?action=System.Shutdown'
+  restart_steffidesktop: 'curl -u User:{{password}} -k http://192.168.2.111:8000/?action=System.Restart'
+  hibernate_steffidesktop: 'curl -u User:{{password}} -k http://192.168.2.111:8000/?action=System.Hibernate'
 
 eufy:
   username: !secret eufy_user

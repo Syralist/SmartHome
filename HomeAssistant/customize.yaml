@@ -8,6 +8,9 @@ scene.film_gucken:
 switch.synology_nas:
   icon: mdi:server-network
 
+switch.steffi_desktop:
+  icon: mdi:desktop-tower
+
 switch.sonoff_rechner:
   icon: mdi:monitor-multiple
 

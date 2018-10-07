@@ -42,6 +42,7 @@ thomaszimmer:
   entities:
     - switch.sonoff_rechner
     - switch.synology_nas
+    - switch.steffi_desktop
     - sensor.thomas_zimmer_temperatur
     - sensor.thomas_zimmer_luftfeuchtigkeit
     - sensor.thomas_zimmer_luftdruck
