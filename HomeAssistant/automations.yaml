@@ -55,9 +55,12 @@
     topic: home/thomaszimmer/temperatur/button
     payload: 'clicked'
   action:
-    service: switch.turn_on
-    data:
-      entity_id: switch.sonoff_rechner
+    - service: switch.turn_on
+      data:
+        entity_id: switch.sonoff_rechner
+    - service: light.turn_on
+      data:
+        entity_id: light.led_licht_1
 - alias: "Rechner ausschalten"
   trigger:
     platform: mqtt
@@ -76,6 +79,8 @@
       entity_id: switch.steffi_desktop
       from: "on"
       to: "off"
+      for:
+        seconds: 10
   condition:
     condition: and
     conditions:
@@ -226,3 +231,26 @@
       data:
         message: |
           Das Fenster ist {% if is_state("binary_sensor.fenster_kueche", "on") -%} offen {%- else -%} geschlossen {%- endif %}.
+
+- alias: NeoPixel Animation Speed Send
+  initial_state: true
+  hide_entity: false
+  trigger:
+  - entity_id: input_number.neopixel_animation_speed
+    platform: state
+  action:
+  - data_template:
+      payload_template: '{"speed": {{ trigger.to_state.state | int }}}'
+      retain: true
+      topic: home/McLighting01_ha/state/in
+    service: mqtt.publish
+
+- alias: NeoPixel Animation Speed Receive
+  trigger:
+  - platform: mqtt
+    topic: home/McLighting01_ha/state/out
+  action:
+  - data_template:
+      entity_id: input_number.neopixel_animation_speed
+      value: '{{ trigger.payload_json.speed | int }}'
+    service: input_number.set_value

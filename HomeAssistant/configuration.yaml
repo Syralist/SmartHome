@@ -365,6 +365,14 @@ input_boolean:
   rechner_ausschalten:
     name: Rechner Ausschalten
 
+input_number:
+  neopixel_animation_speed:
+    name: NeoPixel Animation Speed
+    initial: 200
+    min: 0
+    max: 255
+    step: 5
+
 switch:
   - platform: mqtt
     name: "Sonoff Rechner"
@@ -401,7 +409,7 @@ switch:
   - platform: wake_on_lan
     mac_address: "BC-5F-F4-59-14-77"
     name: "Steffi Desktop"
-    host: "192.168.2.111"
+    host: "192.168.2.99"
     turn_off:
       service: shell_command.hibernate_steffidesktop
       data:
@@ -419,11 +427,83 @@ switch:
     payload_not_available: "Offline"
     retain: true
 
+light:
+  - platform: mqtt_json
+    name: "LED Licht 1"
+    state_topic: "home/McLightingThomas_ha/state/out"
+    command_topic: "home/McLightingThomas_ha/state/in"
+    on_command_type: 'first'
+    effect: true
+    effect_list:
+    ######
+      - "Static"
+      - "Blink"
+      - "Breath"
+      - "Color Wipe"
+      - "Color Wipe Inverse"
+      - "Color Wipe Reverse"
+      - "Color Wipe Reverse Inverse"
+      - "Color Wipe Random"
+      - "Random Color"
+      - "Single Dynamic"
+      - "Multi Dynamic"
+      - "Rainbow"
+      - "Rainbow Cycle"
+      - "Scan"
+      - "Dual Scan"
+      - "Fade"
+      - "Theater Chase"
+      - "Theater Chase Rainbow"
+      - "Running Lights"
+      - "Twinkle"
+      - "Twinkle Random"
+      - "Twinkle Fade"
+      - "Twinkle Fade Random"
+      - "Sparkle"
+      - "Flash Sparkle"
+      - "Hyper Sparkle"
+      - "Strobe"
+      - "Strobe Rainbow"
+      - "Multi Strobe"
+      - "Blink Rainbow"
+      - "Chase White"
+      - "Chase Color"
+      - "Chase Random"
+      - "Chase Rainbow"
+      - "Chase Flash"
+      - "Chase Flash Random"
+      - "Chase Rainbow White"
+      - "Chase Blackout"
+      - "Chase Blackout Rainbow"
+      - "Color Sweep Random"
+      - "Running Color"
+      - "Running Red Blue"
+      - "Running Random"
+      - "Larson Scanner"
+      - "Comet"
+      - "Fireworks"
+      - "Fireworks Random"
+      - "Merry Christmas"
+      - "Fire Flicker"
+      - "Fire Flicker (soft)"
+      - "Fire Flicker (intense)"
+      - "Circus Combustus"
+      - "Halloween"
+      - "Bicolor Chase"
+      - "Tricolor Chase"
+      - "ICU"
+    brightness: true
+    color_temp: true
+    rgb: true
+    optimistic: false
+    qos: 0
+    retain: true
+
 shell_command:
   turn_off_nas: 'curl {{ secret_url }}'
-  shutdown_steffidesktop: 'curl -u User:{{password}} -k http://192.168.2.111:8000/?action=System.Shutdown'
-  restart_steffidesktop: 'curl -u User:{{password}} -k http://192.168.2.111:8000/?action=System.Restart'
-  hibernate_steffidesktop: 'curl -u User:{{password}} -k http://192.168.2.111:8000/?action=System.Hibernate'
+  shutdown_steffidesktop: 'curl -u User:{{password}} -k http://192.168.2.99:8000/?action=System.Shutdown'
+  restart_steffidesktop: 'curl -u User:{{password}} -k http://192.168.2.99:8000/?action=System.Restart'
+  hibernate_steffidesktop: 'curl -u User:{{password}} -k http://192.168.2.99:8000/?action=System.Hibernate'
 
 eufy:
   username: !secret eufy_user
@@ -436,7 +516,7 @@ tts:
 # Media Players
 media_player:
   - platform: braviatv
-    host: 192.168.2.107
+    host: 192.168.2.50
     name: Fernseher
 
 # ISS Location
@@ -474,11 +554,16 @@ duckdns:
 
 device_tracker:
   - platform: nmap_tracker
-    hosts: 192.168.2.0/24
+    hosts: 
+      # - 192.168.2.0/24
+      - 192.168.2.98
+      - 192.168.2.97
     home_interval: 10
-    exclude:
-      - 192.168.2.151
-      - 192.168.2.130
+    # exclude:
+    #   - 192.168.2.151
+    #   - 192.168.2.130
+    #   - 192.168.2.99
+    #   - 192.168.2.50
 
 zone:
   - name: Arbeit

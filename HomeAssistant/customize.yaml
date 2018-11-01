@@ -32,6 +32,9 @@ binary_sensor.fenster_wohnzimmer:
 binary_sensor.fenster_thomas:
   device_class: door
 
+binary_sensor.haustur:
+  device_class: door
+
 switch.sonoff_keller:
   icon: mdi:battery-charging-80
 

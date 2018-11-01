@@ -8,12 +8,19 @@ default_view:
     - group.keller
     - group.anwesenheit
     - group.kueche
+    - group.flur
 
 kueche:
   name: Küche
   icon: mdi:fridge-filled
   entities:
     - binary_sensor.fenster_kueche
+
+flur:
+  name: Flur
+  icon: mdi:hanger
+  entities:
+    - binary_sensor.haustur
 
 wohnzimmer:
   name: Wohnzimmer
@@ -40,6 +47,7 @@ thomaszimmer:
   name: Thomas Zimmer
   icon: mdi:bed-empty
   entities:
+    - light.led_licht_1
     - switch.sonoff_rechner
     - switch.synology_nas
     - switch.steffi_desktop
