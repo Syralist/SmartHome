@@ -543,10 +543,10 @@ google:
   client_secret: !secret google_secret
 
 # mqtt
-mqtt:
-  broker: core-mosquitto
-  username: !secret mqtt_user
-  password: !secret mqtt_pass
+# mqtt:
+  # broker: core-mosquitto
+  # username: !secret mqtt_user
+  # password: !secret mqtt_pass
 
 duckdns:
   domain: helmkeaufdemkamp
