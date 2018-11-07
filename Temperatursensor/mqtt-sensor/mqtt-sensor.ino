@@ -53,7 +53,7 @@ void connect() {
   Serial.print("\nconnecting...");
   while (!client.connect(mqtt_client, mqtt_user, mqtt_pass)) {
     Serial.print(".");
-    delay(1000);
+    delay(5000);
   }
 
   Serial.println("\nconnected!");
@@ -224,6 +224,7 @@ void setup() {
   // Note: Local domain names (e.g. "Computer.local" on OSX) are not supported by Arduino.
   // You need to set the IP address directly.
   client.begin(mqtt_server, net);
+  client.setOptions(10, true, 5000);
   client.onMessage(messageReceived);
 
   connect();
