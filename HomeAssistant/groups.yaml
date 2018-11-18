@@ -27,6 +27,7 @@ wohnzimmer:
   icon: mdi:sofa
   entities:
     - light.wohnzimmer
+    - light.lixieclock
     - sensor.wohnzimmer_temperatur
     - sensor.wohnzimmer_luftfeuchtigkeit
     - sensor.wohnzimmer_luftdruck

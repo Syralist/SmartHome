@@ -498,6 +498,15 @@ light:
     optimistic: false
     qos: 0
     retain: true
+  - platform: mqtt_json
+    name: "LixieClock"
+    state_topic: "home/wohnzimmer/lixie"
+    command_topic: "home/wohnzimmer/lixie/cmd"
+    brightness: true
+    rgb: true
+    optimistic: false
+    qos: 0
+    retain: true
 
 shell_command:
   turn_off_nas: 'curl {{ secret_url }}'
