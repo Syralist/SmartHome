@@ -13,16 +13,16 @@ views:
             title: Fenster
             show_state: false
             entities:
-              - entity: binary_sensor.fenster_1
-              - entity: binary_sensor.fenster_2
-              - entity: binary_sensor.fenster_3
-              - entity: binary_sensor.fenster_4
+              - entity: binary_sensor.fenster_thomas
+              - entity: binary_sensor.haustur
+              - entity: binary_sensor.fenster_kueche
+              - entity: binary_sensor.fenster_wohnzimmer
           - type: entity-filter
             entities:
-              - entity: binary_sensor.fenster_1
-              - entity: binary_sensor.fenster_2
-              - entity: binary_sensor.fenster_3
-              - entity: binary_sensor.fenster_4
+              - entity: binary_sensor.fenster_thomas
+              - entity: binary_sensor.haustur
+              - entity: binary_sensor.fenster_kueche
+              - entity: binary_sensor.fenster_wohnzimmer
             state_filter:
               - "on"
             card:

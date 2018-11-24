@@ -97,10 +97,10 @@ samsungprinter:
   icon: mdi:printer
   control: hidden
   entities:
-    - sensor.samsung_clx3300_series_1921682112_toner_black
-    - sensor.samsung_clx3300_series_1921682112_toner_cyan
-    - sensor.samsung_clx3300_series_1921682112_toner_magenta
-    - sensor.samsung_clx3300_series_1921682112_toner_yellow
+    - sensor.samsung_clx3300_series_1921682101_toner_black
+    - sensor.samsung_clx3300_series_1921682101_toner_cyan
+    - sensor.samsung_clx3300_series_1921682101_toner_magenta
+    - sensor.samsung_clx3300_series_1921682101_toner_yellow
 
 systempi:
   name: Raspberry Host
@@ -118,6 +118,7 @@ batterylevels:
     - sensor.battery_fenster_steffi
     - sensor.battery_fenster_wohnzimmer
     - sensor.battery_fenster_kueche
+    - sensor.battery_haustuer
 
 ups:
   name: USV
@@ -130,10 +131,3 @@ ups:
     - sensor.ups_load
     - sensor.ups_input_voltage
     - sensor.ups_time_left
-
-iss:
-  name: International Space Station
-  icon: mdi:death-star-variant
-  view: yes
-  entities:
-    - camera.iss
