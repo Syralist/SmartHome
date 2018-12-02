@@ -30,7 +30,7 @@ panel_custom:
 
 # TasmoAdmin
 panel_iframe:
-  - name: tasmoadmin
+  tasmoadmin:
     title: TasmoAdmin
     icon: mdi:lightbulb-on
     url: https://192.168.2.130:9541
@@ -110,6 +110,17 @@ weather:
 # USV
 apcupsd:
   host: a722577e-apcupsd
+
+homematic:
+  interfaces:
+    rf:
+      host: core-homematic
+      port: 2001
+
+tuya:
+  username: !secret tuya_user
+  password: !secret tuya_pass
+  country_code: 49
 
 # Weather prediction
 sensor:

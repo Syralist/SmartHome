@@ -14,6 +14,7 @@ kueche:
   name: Küche
   icon: mdi:fridge-filled
   entities:
+    - switch.deko2
     - binary_sensor.fenster_kueche
 
 flur:
@@ -28,6 +29,7 @@ wohnzimmer:
   entities:
     - light.wohnzimmer
     - light.lixieclock
+    - switch.deko1
     - sensor.wohnzimmer_temperatur
     - sensor.wohnzimmer_luftfeuchtigkeit
     - sensor.wohnzimmer_luftdruck
@@ -80,7 +82,7 @@ waschmaschine:
 anwesenheit:
   name: Anwesenheit
   entities:
-    - device_tracker.dcee06e237eb
+    - device_tracker.handysteffifritzbox
     - device_tracker.a028edd9f84c
 
 systeminfo:

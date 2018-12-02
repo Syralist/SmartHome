@@ -46,3 +46,12 @@ sensor.samsung_clx3300_series_1921682100_toner_magenta:
   friendly_name: Magenta
 sensor.samsung_clx3300_series_1921682100_toner_yellow:
   friendly_name: Gelb
+
+switch.deko1:
+  icon: mdi:pine-tree
+switch.deko2:
+  icon: mdi:pine-tree
+switch.deko3:
+  icon: mdi:pine-tree
+switch.deko4:
+  icon: mdi:pine-tree
