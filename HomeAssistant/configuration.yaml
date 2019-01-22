@@ -114,8 +114,23 @@ apcupsd:
 homematic:
   interfaces:
     rf:
-      host: core-homematic
+      host: 192.168.2.120
       port: 2001
+      resolvenames: json
+      username: !secret homematic_user
+      password: !secret homematic_pass
+    ip:
+      host: 192.168.2.120
+      port: 2010
+      resolvenames: json
+      username: !secret homematic_user
+      password: !secret homematic_pass
+  hosts:
+    ccu2:
+      host: 192.168.2.120
+      username: !secret homematic_user
+      password: !secret homematic_pass
+
 
 tuya:
   username: !secret tuya_user
@@ -248,7 +263,7 @@ sensor:
     resources:
       - type: memory_use_percent
       - type: processor_use
-      - type: since_last_boot
+      - type: last_boot
   - platform: template
     sensors:
       battery_fenster_thomas:
@@ -466,7 +481,8 @@ switch:
     retain: true
 
 light:
-  - platform: mqtt_json
+  - platform: mqtt
+    schema: json
     name: "LED Licht 1"
     state_topic: "home/McLightingThomas_ha/state/out"
     command_topic: "home/McLightingThomas_ha/state/in"
@@ -536,7 +552,8 @@ light:
     optimistic: false
     qos: 0
     retain: true
-  - platform: mqtt_json
+  - platform: mqtt
+    schema: json
     name: "LixieClock"
     state_topic: "home/wohnzimmer/lixie"
     command_topic: "home/wohnzimmer/lixie/cmd"

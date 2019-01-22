@@ -30,6 +30,7 @@ wohnzimmer:
     - light.wohnzimmer
     - light.lixieclock
     - switch.deko1
+    - switch.deko3
     - sensor.wohnzimmer_temperatur
     - sensor.wohnzimmer_luftfeuchtigkeit
     - sensor.wohnzimmer_luftdruck
@@ -58,6 +59,7 @@ thomaszimmer:
     - sensor.thomas_zimmer_luftfeuchtigkeit
     - sensor.thomas_zimmer_luftdruck
     - binary_sensor.fenster_thomas
+    - climate.0012999395e750
     # - group.samsungprinter
 
 keller:

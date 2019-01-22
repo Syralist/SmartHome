@@ -1,43 +1,30 @@
 group.all_devices:
   hidden: false
   friendly_name: Handyortung
-
 scene.film_gucken:
   icon: mdi:popcorn
-
 switch.synology_nas:
   icon: mdi:server-network
-
 switch.steffi_desktop:
   icon: mdi:desktop-tower
-
 switch.sonoff_rechner:
   icon: mdi:monitor-multiple
-
 switch.sonoff_waschmaschine:
   icon: mdi:washing-machine
-
 binary_sensor.waschmaschine:
   icon: mdi:washing-machine
-
 binary_sensor.fenster_kueche:
   device_class: window
-
 binary_sensor.fenster_steffi:
   device_class: window
-
 binary_sensor.fenster_wohnzimmer:
   device_class: door
-
 binary_sensor.fenster_thomas:
   device_class: door
-
 binary_sensor.haustur:
   device_class: door
-
 switch.sonoff_keller:
   icon: mdi:battery-charging-80
-
 sensor.samsung_clx3300_series_1921682100_toner_black:
   friendly_name: Schwarz
 sensor.samsung_clx3300_series_1921682100_toner_cyan:
@@ -46,12 +33,15 @@ sensor.samsung_clx3300_series_1921682100_toner_magenta:
   friendly_name: Magenta
 sensor.samsung_clx3300_series_1921682100_toner_yellow:
   friendly_name: Gelb
-
 switch.deko1:
-  icon: mdi:pine-tree
+  icon: mdi:lamp
 switch.deko2:
   icon: mdi:pine-tree
 switch.deko3:
   icon: mdi:pine-tree
 switch.deko4:
   icon: mdi:pine-tree
+climate.0012999395e750:
+  friendly_name: Thermostat Thomas
+light.lixieclock:
+  icon: mdi:clock-outline
