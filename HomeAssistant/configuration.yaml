@@ -264,6 +264,7 @@ sensor:
       - type: memory_use_percent
       - type: processor_use
       - type: last_boot
+  - platform: fritzbox_netmonitor
   - platform: template
     sensors:
       battery_fenster_thomas:
@@ -289,33 +290,6 @@ sensor:
                         {% elif states.binary_sensor.fenster_thomas.attributes.battery_level >= 20 %}
                            mdi:battery-20
                         {% elif states.binary_sensor.fenster_thomas.attributes.battery_level >= 10 %}
-                           mdi:battery-10
-                        {% else %}
-                           battery-outline
-                        {% endif %}'
-      battery_fenster_steffi:
-        friendly_name: 'Fenster Steffi'
-        value_template: "{{ states.binary_sensor.fenster_steffi.attributes.battery_level|default(-1)|int if states.binary_sensor.fenster_steffi is not none }}"
-        unit_of_measurement: '%'
-        icon_template: '{% if states.binary_sensor.fenster_steffi.attributes.battery_level == 100 %}
-                           mdi:battery
-                        {% elif states.binary_sensor.fenster_steffi.attributes.battery_level >= 90 %}
-                           mdi:battery-90
-                        {% elif states.binary_sensor.fenster_steffi.attributes.battery_level >= 80 %}
-                           mdi:battery-80
-                        {% elif states.binary_sensor.fenster_steffi.attributes.battery_level >= 70 %}
-                           mdi:battery-70
-                        {% elif states.binary_sensor.fenster_steffi.attributes.battery_level >= 60 %}
-                           mdi:battery-60
-                        {% elif states.binary_sensor.fenster_steffi.attributes.battery_level >= 50 %}
-                           mdi:battery-50
-                        {% elif states.binary_sensor.fenster_steffi.attributes.battery_level >= 40 %}
-                           mdi:battery-40
-                        {% elif states.binary_sensor.fenster_steffi.attributes.battery_level >= 30 %}
-                           mdi:battery-30
-                        {% elif states.binary_sensor.fenster_steffi.attributes.battery_level >= 20 %}
-                           mdi:battery-20
-                        {% elif states.binary_sensor.fenster_steffi.attributes.battery_level >= 10 %}
                            mdi:battery-10
                         {% else %}
                            battery-outline
@@ -401,6 +375,70 @@ sensor:
                         {% else %}
                            battery-outline
                         {% endif %}'
+      battery_thermo_thomas:
+        friendly_name: 'Thermostat Thomas'
+        value_template: "{{ states.climate['0012999395E750'].attributes.battery if states.climate['0012999395E750'] is not none }}"
+        icon_template: "{% if is_state_attr('climate.0012999395E750', 'battery', 'High') %}
+                           mdi:battery
+                        {% else %}
+                           battery-outline
+                        {% endif %}"
+      battery_fenster_steffi:
+        friendly_name: 'Fenster Steffi'
+        value_template: "{{ states.binary_sensor['fenster_steffi'].attributes.battery if states.binary_sensor['fenster_steffi'] is not none }}"
+        icon_template: "{% if is_state_attr('binary_sensor.fenster_steffi', 'battery', 'High') %}
+                           mdi:battery
+                        {% else %}
+                           battery-outline
+                        {% endif %}"
+      fritz_uptime:
+        friendly_name: "Fritzbox Uptime"
+        icon_template: mdi:clock-outline
+        value_template: "{% set uptime = states.sensor.fritz_netmonitor.attributes.uptime | int %}
+                          {% set minutes = ((uptime % 3600) / 60) | int %} 
+                          {% set hours = ((uptime % 86400) / 3600) | int %}
+                          {% set days = (uptime / 86400) | int %}
+                          {%- if uptime < 1 -%}
+                            Weniger als eine Minute
+                          {%- else -%}
+                            {%- if days > 0 -%}
+                              {%- if days == 1 -%}
+                                1 Tag
+                              {%- else -%}
+                                {{ days }} Tage
+                              {%- endif -%}
+                            {%- endif -%}
+                            {%- if hours > 0 -%}
+                              {%- if days > 0 -%}
+                                {{ ', ' }}
+                              {%- endif -%}
+                              {%- if hours == 1 -%}
+                                1 Stunde
+                              {%- else -%}
+                                {{ hours }} Stunden
+                              {%- endif -%}
+                            {%- endif -%}
+                            {%- if minutes > 0 -%}
+                              {%- if days > 0 or hours > 0 -%}
+                                {{ ', ' }}
+                              {%- endif -%}
+                              {%- if minutes == 1 -%}
+                                1 Minute
+                              {%- else -%}
+                                {{ minutes }} Minuten
+                              {%- endif -%}
+                            {%- endif -%}
+                          {%- endif -%}"
+      fritz_download_rate:
+        friendly_name: "Fritzbox Downstream"
+        icon_template: mdi:download-network-outline
+        unit_of_measurement: 'Mbit/s'
+        value_template: "{{ states.sensor.fritz_netmonitor.attributes.transmission_rate_down/125000 }}"
+      fritz_upload_rate:
+        friendly_name: "Fritzbox Upstream"
+        icon_template: mdi:upload-network-outline
+        unit_of_measurement: 'bytes/s'
+        value_template: "{{ states.sensor.fritz_netmonitor.attributes.transmission_rate_up }}"
 
 binary_sensor:
   - platform: template
@@ -486,7 +524,6 @@ light:
     name: "LED Licht 1"
     state_topic: "home/McLightingThomas_ha/state/out"
     command_topic: "home/McLightingThomas_ha/state/in"
-    on_command_type: 'first'
     effect: true
     effect_list:
     ######
