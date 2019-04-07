@@ -21,12 +21,12 @@ frontend:
   themes: !include themes.yaml
 
 # Floorplan
-panel_custom:
-  - name: floorplan
-    sidebar_title: Floorplan
-    sidebar_icon: mdi:home
-    url_path: floorplan
-    config: !include floorplan.yaml
+# panel_custom:
+#   - name: floorplan
+#     sidebar_title: Floorplan
+#     sidebar_icon: mdi:home
+#     url_path: floorplan
+#     config: !include floorplan.yaml
 
 # TasmoAdmin
 panel_iframe:
@@ -37,6 +37,8 @@ panel_iframe:
 
 # Enables configuration UI
 config:
+
+system_health:
 
 http:
   # Secrets are defined in the file secrets.yaml
@@ -175,19 +177,19 @@ sensor:
   - platform: mqtt
     name: "Wohnzimmer Temperatur"
     unit_of_measurement: "°C"
-    state_topic: "home/wohnzimmer/temperatur"
+    state_topic: "home/wohnzimmer/lixie/temp"
     value_template: '{{ value_json.temp }}'
   - platform: mqtt
     name: "Wohnzimmer Luftdruck"
     unit_of_measurement: "hPa"
     icon: mdi:gauge
-    state_topic: "home/wohnzimmer/temperatur"
+    state_topic: "home/wohnzimmer/lixie/temp"
     value_template: '{{ value_json.press }}'
   - platform: mqtt
     name: "Wohnzimmer Luftfeuchtigkeit"
     unit_of_measurement: "%"
     icon: mdi:water-percent
-    state_topic: "home/wohnzimmer/temperatur"
+    state_topic: "home/wohnzimmer/lixie/temp"
     value_template: '{{ value_json.humid }}'
   - platform: mqtt
     name: "Steffis Zimmer Temperatur"
@@ -439,6 +441,14 @@ sensor:
         icon_template: mdi:upload-network-outline
         unit_of_measurement: 'bytes/s'
         value_template: "{{ states.sensor.fritz_netmonitor.attributes.transmission_rate_up }}"
+  - platform: vicare
+    username: !secret vicare_user
+    password: !secret vicare_pass
+
+climate:
+  - platform: vicare
+    username: !secret vicare_user
+    password: !secret vicare_pass
 
 binary_sensor:
   - platform: template
@@ -658,6 +668,8 @@ device_tracker:
     #   - 192.168.2.130
     #   - 192.168.2.99
     #   - 192.168.2.50
+
+person:
 
 zone:
   - name: Arbeit

@@ -38,10 +38,22 @@ switch.deko1:
 switch.deko2:
   icon: mdi:pine-tree
 switch.deko3:
-  icon: mdi:pine-tree
+  icon: mdi:star-face
 switch.deko4:
   icon: mdi:pine-tree
 climate.0012999395e750:
   friendly_name: Thermostat Thomas
 light.lixieclock:
   icon: mdi:clock-outline
+automation.thomas_geht_schlafen:
+  icon: mdi:sleep
+person.thomas:
+  entity_picture: https://secure.gravatar.com/avatar/8a54bf670ce6cb3e3acd11df35df350d
+sensor.vicare_outsidetemperature:
+  friendly_name: Aussentemperatur
+zone.thomas_thomashandy_arbeit:
+  friendly_name: Arbeit (owntracks)
+  icon: mdi:office-building
+zone.thomas_thomashandy_hackerspace:
+  friendly_name: Hackerspace (owntracks)
+  icon: mdi:settings-outline

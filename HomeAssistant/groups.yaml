@@ -55,6 +55,7 @@ thomaszimmer:
     - switch.sonoff_rechner
     - switch.synology_nas
     - switch.steffi_desktop
+    - automation.thomas_geht_schlafen
     - sensor.thomas_zimmer_temperatur
     - sensor.thomas_zimmer_luftfeuchtigkeit
     - sensor.thomas_zimmer_luftdruck
@@ -66,6 +67,7 @@ keller:
   name: Keller
   icon: mdi:stairs
   entities:
+    - sensor.vicare_outsidetemperature
     - switch.sonoff_keller
     - switch.sonoff_waschmaschine
     - group.waschmaschine
@@ -85,7 +87,8 @@ anwesenheit:
   name: Anwesenheit
   entities:
     - device_tracker.handysteffifritzbox
-    - device_tracker.a028edd9f84c
+    # - device_tracker.a028edd9f84c
+    - person.thomas
 
 systeminfo:
   name: System Informationen
@@ -145,3 +148,25 @@ ups:
     - sensor.ups_load
     - sensor.ups_input_voltage
     - sensor.ups_time_left
+
+heizung:
+  name: Heizung
+  icon: mdi:radiator
+  control: hidden
+  view: yes
+  entities:
+    - climate.vicare_heating
+    - climate.vicare_water
+    - group.vicare
+
+vicare:
+  name: ViCare
+  entities:
+    - sensor.vicare_activemode
+    - sensor.vicare_activeprogram
+    - sensor.vicare_boilertemperature
+    - sensor.vicare_currentdesiredtemperature
+    - sensor.vicare_domestichotwaterconfiguredtemperature
+    - sensor.vicare_domestichotwaterstoragetemperature
+    - sensor.vicare_outsidetemperature
+    - sensor.vicare_supplytemperature
