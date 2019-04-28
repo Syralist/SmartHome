@@ -134,19 +134,7 @@
     - service: hassio.snapshot_full
       data_template:
         name: Automated Backup {{ now().strftime('%Y-%m-%d') }}
-- alias: "Backup hochladen"
-  trigger:
-    platform: time
-    at: "02:00:00"
-  condition:
-    condition: time
-    weekday:
-      - mon
-  action:
-    - service: hassio.addon_stdin
-      data:
-        addon: 7be23ff5_dropbox_sync
-        input: {"command":"upload"}
+        password: !secret http_password
 - alias: "Jarvis: Menü anzeigen"
   trigger:
     platform: event
@@ -242,13 +230,13 @@
   - data_template:
       payload_template: '{"speed": {{ trigger.to_state.state | int }}}'
       retain: true
-      topic: home/McLighting01_ha/state/in
+      topic: home/McLightingThomas_ha/state/in
     service: mqtt.publish
 
 - alias: NeoPixel Animation Speed Receive
   trigger:
   - platform: mqtt
-    topic: home/McLighting01_ha/state/out
+    topic: home/McLightingThomas_ha/state/out
   action:
   - data_template:
       entity_id: input_number.neopixel_animation_speed

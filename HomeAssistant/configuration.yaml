@@ -531,7 +531,7 @@ switch:
 light:
   - platform: mqtt
     schema: json
-    name: "LED Licht 1"
+    name: "McLightingThomas"
     state_topic: "home/McLightingThomas_ha/state/out"
     command_topic: "home/McLightingThomas_ha/state/in"
     effect: true
