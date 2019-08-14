@@ -1,12 +1,12 @@
-film_gucken:
-  alias: Film gucken
-  sequence:
-    - alias: Fernseher an
-      service: media_player.turn_on
-      data:
-        entity_id: media_player.fernseher
-    - alias: BlueRay auswählen
-      service: media_player.select_source
-      data:
-        entity_id: media_player.fernseher
-        source: HDMI 1
+# film_gucken:
+#   alias: Film gucken
+#   sequence:
+#     - alias: Fernseher an
+#       service: media_player.turn_on
+#       data:
+#         entity_id: media_player.fernseher
+#     - alias: BlueRay auswählen
+#       service: media_player.select_source
+#       data:
+#         entity_id: media_player.fernseher
+#         source: HDMI 1

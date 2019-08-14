@@ -13,12 +13,23 @@ homeassistant:
   # Customization file
   customize: !include customize.yaml
 
+  whitelist_external_dirs:
+    - /config/sensor
+    - /share/sensor
+
 # Show links to resources in log and frontend
 # introduction:
 
 # Enables the frontend
 frontend:
-  themes: !include themes.yaml
+  # themes: !include themes.yaml
+  themes: !include_dir_merge_named themes/
+
+hacs:
+  token: !secret hacs_github
+  appdaemon: true
+  python_script: true
+  theme: true
 
 # Floorplan
 # panel_custom:
@@ -34,6 +45,10 @@ panel_iframe:
     title: TasmoAdmin
     icon: mdi:lightbulb-on
     url: https://192.168.2.130:9541
+  # custom_components:
+  #   title: Custom Component Store
+  #   icon: mdi:package-variant
+  #   url: http://192.168.2.130:8100/
 
 # Enables configuration UI
 config:
@@ -42,7 +57,7 @@ system_health:
 
 http:
   # Secrets are defined in the file secrets.yaml
-  api_password: !secret http_password
+  # api_password: !secret http_password
   # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
   # base_url: example.duckdns.org:8123
   base_url: helmkeaufdemkamp.duckdns.org:8123
@@ -85,6 +100,7 @@ logger:
   logs:
     pydeconz: debug
     homeassistant.components.deconz: debug
+    abfallio: debug
 
 # # InfluxDB
 # influxdb:
@@ -104,6 +120,11 @@ map:
 
 # Track the sun
 sun:
+
+alarm_control_panel:
+  - platform: manual_mqtt
+    state_topic: home/alarm
+    command_topic: home/alarm/set
 
 weather:
   - platform: openweathermap
@@ -139,8 +160,23 @@ tuya:
   password: !secret tuya_pass
   country_code: 49
 
+android_ip_webcam:
+  - host: 192.168.2.127
+    sensors:
+      - battery_level
+      - battery_temp
+      - light
+    switches:
+      - night_vision
+      - torch
+
 # Weather prediction
 sensor:
+  - platform: abfallio
+    resources:
+      - gelbersack
+      - hausmuell
+      - papiertonne
   - platform: yr
     name: Wetter Heute
     monitored_conditions:
@@ -191,40 +227,6 @@ sensor:
     icon: mdi:water-percent
     state_topic: "home/wohnzimmer/lixie/temp"
     value_template: '{{ value_json.humid }}'
-  - platform: mqtt
-    name: "Steffis Zimmer Temperatur"
-    unit_of_measurement: "°C"
-    state_topic: "home/steffiszimmer/temperatur"
-    value_template: '{{ value_json.temp }}'
-  - platform: mqtt
-    name: "Steffis Zimmer Luftdruck"
-    unit_of_measurement: "hPa"
-    icon: mdi:gauge
-    state_topic: "home/steffiszimmer/temperatur"
-    value_template: '{{ value_json.press }}'
-  - platform: mqtt
-    name: "Steffis Zimmer Luftfeuchtigkeit"
-    unit_of_measurement: "%"
-    icon: mdi:water-percent
-    state_topic: "home/steffiszimmer/temperatur"
-    value_template: '{{ value_json.humid }}'
-  - platform: mqtt
-    name: "Thomas' Zimmer Temperatur"
-    unit_of_measurement: "°C"
-    state_topic: "home/thomaszimmer/temperatur"
-    value_template: '{{ value_json.temp }}'
-  - platform: mqtt
-    name: "Thomas' Zimmer Luftdruck"
-    unit_of_measurement: "hPa"
-    icon: mdi:gauge
-    state_topic: "home/thomaszimmer/temperatur"
-    value_template: '{{ value_json.press }}'
-  - platform: mqtt
-    name: "Thomas' Zimmer Luftfeuchtigkeit"
-    unit_of_measurement: "%"
-    icon: mdi:water-percent
-    state_topic: "home/thomaszimmer/temperatur"
-    value_template: '{{ value_json.humid }}'
   - platform: apcupsd
     resources:
       - bcharge
@@ -261,6 +263,10 @@ sensor:
     value_template: '{{ value_json["ENERGY"]["Current"] }}'
     unit_of_measurement: "A"
     icon: mdi:gauge-empty
+  - platform: mqtt
+    name: "Rollladen Thomas Temperatur"
+    state_topic: "shellies/shellyswitch25-E62E12/temperature"
+    unit_of_measurement: "°C"
   - platform: systemmonitor
     resources:
       - type: memory_use_percent
@@ -379,8 +385,8 @@ sensor:
                         {% endif %}'
       battery_thermo_thomas:
         friendly_name: 'Thermostat Thomas'
-        value_template: "{{ states.climate['0012999395E750'].attributes.battery if states.climate['0012999395E750'] is not none }}"
-        icon_template: "{% if is_state_attr('climate.0012999395E750', 'battery', 'High') %}
+        value_template: "{{ states.climate['0012999395e750'].attributes.battery if states.climate['0012999395e750'] is not none }}"
+        icon_template: "{% if is_state_attr('climate.0012999395e750', 'battery', 'High') %}
                            mdi:battery
                         {% else %}
                            battery-outline
@@ -389,6 +395,14 @@ sensor:
         friendly_name: 'Fenster Steffi'
         value_template: "{{ states.binary_sensor['fenster_steffi'].attributes.battery if states.binary_sensor['fenster_steffi'] is not none }}"
         icon_template: "{% if is_state_attr('binary_sensor.fenster_steffi', 'battery', 'High') %}
+                           mdi:battery
+                        {% else %}
+                           battery-outline
+                        {% endif %}"
+      battery_keller_wasser:
+        friendly_name: 'Keller Wasser'
+        value_template: "{{ states.binary_sensor['001898a99f52dc_alarmstate'].attributes.battery if states.binary_sensor['001898a99f52dc_alarmstate'] is not none }}"
+        icon_template: "{% if is_state_attr('binary_sensor.001898a99f52dc_alarmstate', 'battery', 'High') %}
                            mdi:battery
                         {% else %}
                            battery-outline
@@ -444,6 +458,14 @@ sensor:
   - platform: vicare
     username: !secret vicare_user
     password: !secret vicare_pass
+  - platform: file
+    name: MuellabfuhrAbgeholt
+    file_path: /share/sensor/MuellabfuhrZaehler.json
+    value_template: '{{ value_json.abgeholt }}'
+  - platform: file
+    name: MuellabfuhrSparziel
+    file_path: /share/sensor/MuellabfuhrZaehler.json
+    value_template: '{{ value_json.sparziel }}'
 
 climate:
   - platform: vicare
@@ -455,7 +477,7 @@ binary_sensor:
     sensors:
       waschmaschine:
         friendly_name: "Waschmaschine läuft"
-        value_template: "{{ states('sensor.waschmaschine_leistung')|float > 2.0 }}"
+        value_template: "{{ states('sensor.waschmaschine_leistung')|float > 3.0 }}"
         delay_off:
           minutes: 3
         delay_on:
@@ -463,16 +485,15 @@ binary_sensor:
   - platform: iss
 
 input_boolean:
-  rechner_ausschalten:
-    name: Rechner Ausschalten
+  wochenende:
+    name: Wochenende
 
 input_number:
-  neopixel_animation_speed:
-    name: NeoPixel Animation Speed
-    initial: 200
+  muellabfuhr_slider:
+    name: Müllabfuhr abgeholt
     min: 0
-    max: 255
-    step: 5
+    max: 27
+    step: 1
 
 switch:
   - platform: mqtt
@@ -529,76 +550,76 @@ switch:
     retain: true
 
 light:
-  - platform: mqtt
-    schema: json
-    name: "McLightingThomas"
-    state_topic: "home/McLightingThomas_ha/state/out"
-    command_topic: "home/McLightingThomas_ha/state/in"
-    effect: true
-    effect_list:
-    ######
-      - "Static"
-      - "Blink"
-      - "Breath"
-      - "Color Wipe"
-      - "Color Wipe Inverse"
-      - "Color Wipe Reverse"
-      - "Color Wipe Reverse Inverse"
-      - "Color Wipe Random"
-      - "Random Color"
-      - "Single Dynamic"
-      - "Multi Dynamic"
-      - "Rainbow"
-      - "Rainbow Cycle"
-      - "Scan"
-      - "Dual Scan"
-      - "Fade"
-      - "Theater Chase"
-      - "Theater Chase Rainbow"
-      - "Running Lights"
-      - "Twinkle"
-      - "Twinkle Random"
-      - "Twinkle Fade"
-      - "Twinkle Fade Random"
-      - "Sparkle"
-      - "Flash Sparkle"
-      - "Hyper Sparkle"
-      - "Strobe"
-      - "Strobe Rainbow"
-      - "Multi Strobe"
-      - "Blink Rainbow"
-      - "Chase White"
-      - "Chase Color"
-      - "Chase Random"
-      - "Chase Rainbow"
-      - "Chase Flash"
-      - "Chase Flash Random"
-      - "Chase Rainbow White"
-      - "Chase Blackout"
-      - "Chase Blackout Rainbow"
-      - "Color Sweep Random"
-      - "Running Color"
-      - "Running Red Blue"
-      - "Running Random"
-      - "Larson Scanner"
-      - "Comet"
-      - "Fireworks"
-      - "Fireworks Random"
-      - "Merry Christmas"
-      - "Fire Flicker"
-      - "Fire Flicker (soft)"
-      - "Fire Flicker (intense)"
-      - "Circus Combustus"
-      - "Halloween"
-      - "Bicolor Chase"
-      - "Tricolor Chase"
-      - "ICU"
-    brightness: true
-    color_temp: true
-    rgb: true
-    optimistic: false
-    qos: 0
-    retain: true
+  # - platform: mqtt
+  #   schema: json
+  #   name: "McLightingThomas"
+  #   state_topic: "home/McLightingThomas_ha/state/out"
+  #   command_topic: "home/McLightingThomas_ha/state/in"
+  #   effect: true
+  #   effect_list:
+  #   ######
+  #     - "Static"
+  #     - "Blink"
+  #     - "Breath"
+  #     - "Color Wipe"
+  #     - "Color Wipe Inverse"
+  #     - "Color Wipe Reverse"
+  #     - "Color Wipe Reverse Inverse"
+  #     - "Color Wipe Random"
+  #     - "Random Color"
+  #     - "Single Dynamic"
+  #     - "Multi Dynamic"
+  #     - "Rainbow"
+  #     - "Rainbow Cycle"
+  #     - "Scan"
+  #     - "Dual Scan"
+  #     - "Fade"
+  #     - "Theater Chase"
+  #     - "Theater Chase Rainbow"
+  #     - "Running Lights"
+  #     - "Twinkle"
+  #     - "Twinkle Random"
+  #     - "Twinkle Fade"
+  #     - "Twinkle Fade Random"
+  #     - "Sparkle"
+  #     - "Flash Sparkle"
+  #     - "Hyper Sparkle"
+  #     - "Strobe"
+  #     - "Strobe Rainbow"
+  #     - "Multi Strobe"
+  #     - "Blink Rainbow"
+  #     - "Chase White"
+  #     - "Chase Color"
+  #     - "Chase Random"
+  #     - "Chase Rainbow"
+  #     - "Chase Flash"
+  #     - "Chase Flash Random"
+  #     - "Chase Rainbow White"
+  #     - "Chase Blackout"
+  #     - "Chase Blackout Rainbow"
+  #     - "Color Sweep Random"
+  #     - "Running Color"
+  #     - "Running Red Blue"
+  #     - "Running Random"
+  #     - "Larson Scanner"
+  #     - "Comet"
+  #     - "Fireworks"
+  #     - "Fireworks Random"
+  #     - "Merry Christmas"
+  #     - "Fire Flicker"
+  #     - "Fire Flicker (soft)"
+  #     - "Fire Flicker (intense)"
+  #     - "Circus Combustus"
+  #     - "Halloween"
+  #     - "Bicolor Chase"
+  #     - "Tricolor Chase"
+  #     - "ICU"
+  #   brightness: true
+  #   color_temp: true
+  #   rgb: true
+  #   optimistic: false
+  #   qos: 0
+  #   retain: true
   - platform: mqtt
     schema: json
     name: "LixieClock"
@@ -609,6 +630,25 @@ light:
     optimistic: false
     qos: 0
     retain: true
+
+cover:
+  - platform: mqtt
+    name: "Rollladen Thomas"
+    command_topic: "shellies/shellyswitch25-E62E12/roller/0/command"
+    position_topic: "shellies/shellyswitch25-E62E12/roller/0/pos"
+    set_position_topic: "shellies/shellyswitch25-E62E12/roller/0/command/pos"
+    availability_topic: "shellies/shellyswitch25-E62E12/online"
+    payload_available: "true"
+    payload_not_available: "false"
+    qos: 0
+    retain: false
+    payload_open: "open"
+    payload_close: "close"
+    payload_stop: "stop"
+    position_open: 100
+    position_closed: 0
+    # value_template: '{{ value.x }}'
+    device_class: shutter
 
 shell_command:
   turn_off_nas: 'curl {{ secret_url }}'
@@ -622,13 +662,20 @@ eufy:
 
 # Text to speech
 tts:
-  - platform: google
+  - platform: google_translate
+    service_name: google_say
 
 # Media Players
 media_player:
   - platform: braviatv
     host: 192.168.2.50
     name: Fernseher
+
+alexa_media:
+  accounts:
+    - email: !secret amazon_user
+      password: !secret amazon_password
+      url: amazon.de
 
 # # Cloud
 # cloud:
@@ -646,11 +693,20 @@ google:
   client_id: !secret google_id
   client_secret: !secret google_secret
 
+google_assistant:
+  project_id: !secret google-assistant-id
+  api_key: !secret google-assistant-key
+  exposed_domains:
+    - switch
+    - light
+    - cover
+
 # mqtt
-# mqtt:
-  # broker: core-mosquitto
-  # username: !secret mqtt_user
-  # password: !secret mqtt_pass
+mqtt:
+  discovery: true
+  broker: core-mosquitto
+  username: !secret mqtt_user
+  password: !secret mqtt_pass
 
 duckdns:
   domain: helmkeaufdemkamp
@@ -678,18 +734,21 @@ zone:
     radius: 1900
     icon: mdi:office-building
 
-telegram_bot:
-  - platform: polling
-    api_key: !secret telegram_apikey
-    allowed_chat_ids:
-      - !secret telegramm_group_id
-      - !secret telegramm_thomas_id
-      - !secret telegramm_steffi_id
+# telegram_bot:
+#   - platform: polling
+#     api_key: !secret telegram_apikey
+#     allowed_chat_ids:
+#       - !secret telegramm_group_id
+#       - !secret telegramm_thomas_id
+#       - !secret telegramm_steffi_id
 
 notify:
-  - name: JarvisNotifier
-    platform: telegram
-    chat_id: !secret telegramm_group_id
+  # - name: JarvisNotifier
+  #   platform: telegram
+  #   chat_id: !secret telegramm_group_id
+  - name: MuellabfuhrZaehler
+    platform: file
+    filename: /share/sensor/MuellabfuhrZaehler.json
 
 group: !include groups.yaml
 automation: !include automations.yaml

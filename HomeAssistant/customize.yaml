@@ -12,6 +12,7 @@ switch.sonoff_rechner:
 switch.sonoff_waschmaschine:
   icon: mdi:washing-machine
 binary_sensor.waschmaschine:
+  device_class: power
   icon: mdi:washing-machine
 binary_sensor.fenster_kueche:
   device_class: window
@@ -57,3 +58,19 @@ zone.thomas_thomashandy_arbeit:
 zone.thomas_thomashandy_hackerspace:
   friendly_name: Hackerspace (owntracks)
   icon: mdi:settings-outline
+binary_sensor.001898a99f52dc_alarmstate:
+  friendly_name: HmIP-SWD ALARMSTATE
+  id: keller_wasser_alarm
+binary_sensor.001898a99f52dc_moisture_detected:
+  device_class: moisture
+  friendly_name: HmIP-SWD Feuchtigkeit erkannt
+  id: keller_wasser_feuchtigkeit
+binary_sensor.001898a99f52dc_waterlevel_detected:
+  device_class: moisture
+  friendly_name: HmIP-SWD Wasser erkannt
+  id: keller_wasser
+sensor.muellabfuhrabgeholt:
+  friendly_name: Müllabfuhr Anzahl
+  icon: mdi:trash-can-outline
+cover.rollladen_thomas:
+  device_class: shade

@@ -15,113 +15,10 @@
       data:
         topic: "home/keller/sonoff/cmnd/POWER"
         payload: ""
-- alias: "Müllabfuhr-Benachrichtung"
-  trigger:
-    platform: state
-    entity_id: calendar.jarvis_muellabfuhr
-    to: "on"
-  action:
-    - service: notify.jarvisnotifier
+    - service: mqtt.publish
       data:
-        title: "Müllabfuhr-Benachrichtigung"
-        message: "Morgen wird {{ states.calendar.jarvis_muellabfuhr.attributes.description }} abgeholt!"
-- alias: "Stromausfall"
-  trigger:
-    platform: state
-    entity_id: sensor.ups_status
-    to: "ONBATT"
-    for:
-      seconds: 30
-  action:
-    - service: notify.jarvisnotifier
-      data:
-        title: "Stromausfall erkannt"
-        message: "Die Batterie hält ca. {{ states.sensor.ups_time_left.state | int() }} Minuten!"
-- alias: "Wäsche ist fertig"
-  trigger:
-    platform: state
-    entity_id: binary_sensor.waschmaschine
-    to: "off"
-    for:
-      minutes: 2
-  action:
-    - service: notify.jarvisnotifier
-      data:
-        title: "Wäsche ist fertig"
-        message: "Die Waschmaschine ist seit 5 Minuten aus."
-- alias: "Rechner einschalten"
-  trigger:
-    platform: mqtt
-    topic: home/thomaszimmer/temperatur/button
-    payload: 'clicked'
-  action:
-    - service: switch.turn_on
-      data:
-        entity_id: switch.sonoff_rechner
-    - service: light.turn_on
-      data:
-        entity_id: light.led_licht_1
-- alias: "Rechner ausschalten"
-  trigger:
-    platform: mqtt
-    topic: home/thomaszimmer/temperatur/button
-    payload: 'held'
-  action:
-    - service: switch.turn_off
-      data:
-        entity_id: switch.steffi_desktop
-    - service: input_boolean.turn_on
-      data:
-        entity_id: input_boolean.rechner_ausschalten
-- alias: "Steckerleiste ausschalten1"
-  trigger:
-    - platform: state
-      entity_id: switch.steffi_desktop
-      from: "on"
-      to: "off"
-      for:
-        seconds: 10
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: input_boolean.rechner_ausschalten
-        state: "on"
-  action:
-    - service: switch.turn_off
-      data:
-        entity_id: switch.sonoff_rechner
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.rechner_ausschalten
-- alias: "Steckerleiste ausschalten2"
-  trigger:
-    - platform: state
-      entity_id: input_boolean.rechner_ausschalten
-      from: "off"
-      to: "on"
-  condition:
-    condition: and
-    conditions:
-      - condition: state
-        entity_id: switch.steffi_desktop
-        state: "off"
-  action:
-    - service: switch.turn_off
-      data:
-        entity_id: switch.sonoff_rechner
-    - service: input_boolean.turn_off
-      data:
-        entity_id: input_boolean.rechner_ausschalten
-- alias: "Thomas geht schlafen"
-  trigger:
-    platform: mqtt
-    topic: home/thomaszimmer/temperatur/button
-    payload: 'heldLong'
-  action:
-    service: switch.turn_off
-    data:
-      entity_id: group.thomaszimmer
+        topic: 'shellies/command'
+        payload: 'update'
 - alias: "Wöchentliches Backup"
   trigger:
     platform: time
@@ -135,110 +32,26 @@
       data_template:
         name: Automated Backup {{ now().strftime('%Y-%m-%d') }}
         password: !secret http_password
-- alias: "Jarvis: Menü anzeigen"
-  trigger:
-    platform: event
-    event_type: telegram_command
-    event_data:
-      command: '/jarvis'
-  action:
-    - service: notify.jarvisnotifier
-      data:
-        message: 'Bitte wählen Sie:'
-        data:
-          inline_keyboard:
-            - '/wohnzimmer'
-            - '/keller'
-            - '/steffi'
-            - '/thomas'
-            - '/küche'
-- alias: "Jarvis: Keller Info"
-  trigger:
-    platform: event
-    event_type: telegram_callback
-    event_data:
-      data: '/keller'
-  action:
-    - service: notify.jarvisnotifier
-      data:
-        message: |
-          Die Waschmaschine {% if is_state("binary_sensor.waschmaschine", "on") -%}
-          läuft {% set zeit = (as_timestamp(now())-as_timestamp(states.binary_sensor.waschmaschine.last_updated)) / 60 %}
-          {% if zeit < 60 -%}
-          seit {{zeit | int}} Minuten.
-          {%- else -%}
-          seit {{ ( zeit / 60 ) | int }} Stunden, {{ ( zeit - ( ( zeit / 60 ) | int ) * 60 ) | int }} Minuten.
-          {%- endif %}
-          {%- else -%}
-          ist aus.
-          {%- endif %}
-- alias: "Jarvis: Wohnzimmer Info"
-  trigger:
-    platform: event
-    event_type: telegram_callback
-    event_data:
-      data: '/wohnzimmer'
-  action:
-    - service: notify.jarvisnotifier
-      data:
-        message: |
-          Im Wohnzimmer sind {{states.sensor.wohnzimmer_temperatur.state_with_unit}}.
-          Die Tür ist {% if is_state("binary_sensor.fenster_wohnzimmer", "on") -%} offen {%- else -%} geschlossen {%- endif %}.
-- alias: "Jarvis: Thomas Info"
-  trigger:
-    platform: event
-    event_type: telegram_callback
-    event_data:
-      data: '/thomas'
-  action:
-    - service: notify.jarvisnotifier
-      data_template:
-        message: |
-          Bei Thomas sind {{states.sensor.thomas_zimmer_temperatur.state_with_unit}}.
-          Die Tür ist {% if is_state("binary_sensor.fenster_thomas", "on") -%} offen {%- else -%} geschlossen {%- endif %}.
-- alias: "Jarvis: Steffi Info"
-  trigger:
-    platform: event
-    event_type: telegram_callback
-    event_data:
-      data: '/steffi'
-  action:
-    - service: notify.jarvisnotifier
-      data:
-        message: |
-          Bei Steffi sind {{states.sensor.steffis_zimmer_temperatur.state_with_unit}}.
-          Das Fenster ist {% if is_state("binary_sensor.fenster_steffi", "on") -%} offen {%- else -%} geschlossen {%- endif %}.
-- alias: "Jarvis: Küchen Info"
-  trigger:
-    platform: event
-    event_type: telegram_callback
-    event_data:
-      data: '/küche'
-  action:
-    - service: notify.jarvisnotifier
-      data:
-        message: |
-          Das Fenster ist {% if is_state("binary_sensor.fenster_kueche", "on") -%} offen {%- else -%} geschlossen {%- endif %}.
 
-- alias: NeoPixel Animation Speed Send
-  initial_state: true
-  hide_entity: false
-  trigger:
-  - entity_id: input_number.neopixel_animation_speed
-    platform: state
-  action:
-  - data_template:
-      payload_template: '{"speed": {{ trigger.to_state.state | int }}}'
-      retain: true
-      topic: home/McLightingThomas_ha/state/in
-    service: mqtt.publish
+# - alias: NeoPixel Animation Speed Send
+#   initial_state: true
+#   hide_entity: false
+#   trigger:
+#   - entity_id: input_number.neopixel_animation_speed
+#     platform: state
+#   action:
+#   - data_template:
+#       payload_template: '{"speed": {{ trigger.to_state.state | int }}}'
+#       retain: true
+#       topic: home/McLightingThomas_ha/state/in
+#     service: mqtt.publish
 
-- alias: NeoPixel Animation Speed Receive
-  trigger:
-  - platform: mqtt
-    topic: home/McLightingThomas_ha/state/out
-  action:
-  - data_template:
-      entity_id: input_number.neopixel_animation_speed
-      value: '{{ trigger.payload_json.speed | int }}'
-    service: input_number.set_value
+# - alias: NeoPixel Animation Speed Receive
+#   trigger:
+#   - platform: mqtt
+#     topic: home/McLightingThomas_ha/state/out
+#   action:
+#   - data_template:
+#       entity_id: input_number.neopixel_animation_speed
+#       value: '{{ trigger.payload_json.speed | int }}'
+#     service: input_number.set_value
