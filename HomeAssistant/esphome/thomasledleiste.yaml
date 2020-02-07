@@ -1,0 +1,42 @@
+esphome:
+  name: thomasledleiste
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi-ssid
+  password: !secret wifi-password
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret esphome-password
+
+ota:
+  password: !secret esphome-password
+
+# mqtt:
+#  broker: 192.168.2.130
+#  username: !secret mqtt_user
+#  password: !secret mqtt_pass
+
+light:
+  - platform: fastled_clockless
+    chipset: WS2812B
+    pin: D1
+    num_leds: 30
+    rgb_order: GRB
+    name: "LED Leiste Thomas"
+    effects:
+      - random:
+      - strobe:
+      - flicker:
+      - addressable_rainbow:
+      - addressable_color_wipe:
+      - addressable_scan:
+      - addressable_twinkle:
+      - addressable_random_twinkle:
+      - addressable_fireworks:
+      - addressable_flicker:

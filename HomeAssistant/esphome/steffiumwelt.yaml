@@ -1,0 +1,40 @@
+esphome:
+  name: steffiumwelt
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi-ssid
+  password: !secret wifi-password
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret esphome-password
+
+ota:
+  password: !secret esphome-password
+
+mqtt:
+  broker: 192.168.2.130
+  username: !secret mqtt_user
+  password: !secret mqtt_pass
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+
+sensor:
+  - platform: bme280
+    temperature:
+      name: "Steffis Zimmer Temperatur"
+      oversampling: 16x
+    pressure:
+      name: "Steffis Zimmer Luftdruck"
+    humidity:
+      name: "Steffis Zimmer Feuchtigkeit"
+    address: 0x76
+    update_interval: 60s

@@ -1,0 +1,33 @@
+esphome:
+  name: keypadtext
+  platform: ESP8266
+  board: nodemcuv2
+  includes:
+    - keypad_textsensor.h
+  libraries:
+    - "Keypad"
+
+wifi:
+  ssid: !secret wifi-ssid
+  password: !secret wifi-password
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret esphome-password
+
+ota:
+  password: !secret esphome-password
+
+text_sensor:
+  - platform: custom
+    lambda: |-
+      auto my_sensor = new KeypadTextSensor();
+      App.register_component(my_sensor);
+      return {my_sensor};
+    
+    text_sensors:
+      name: "Keypad TextSensor"
+      icon: "mdi:dialpad"

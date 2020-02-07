@@ -1,0 +1,104 @@
+esphome:
+  name: epaperstatus
+  platform: ESP8266
+  board: esp12e
+
+wifi:
+  ssid: !secret wifi-ssid
+  password: !secret wifi-password
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret esphome-password
+
+ota:
+  password: !secret esphome-password
+
+#Homeassistant Binary Sensors
+binary_sensor:
+  - platform: homeassistant
+    name: "Fenster Steffi"
+    entity_id: binary_sensor.fenster_steffi
+    id: fenster_steffi
+  - platform: homeassistant
+    name: "Fenster Thomas"
+    entity_id: binary_sensor.fenster_thomas
+    id: fenster_thomas
+  - platform: homeassistant
+    name: "Fenster Küche"
+    entity_id: binary_sensor.fenster_kueche
+    id: fenster_kueche
+  - platform: homeassistant
+    name: "Fenster Wohnzimmer"
+    entity_id: binary_sensor.fenster_wohnzimmer
+    id: fenster_wohnzimmer
+
+# Configure SPI pins
+spi:
+  clk_pin: 14 #D5
+  mosi_pin: 13 #D7
+
+# Fonts
+font:
+  - file: "SourceCodePro-Medium.ttf"
+    id: font_sourcecode
+    size: 20
+    glyphs:  |-
+      !"%()+,-_.:°0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ abcdefghijklmnopqrstuvwxyzäöüß
+
+# Configure e-ink display
+display:
+  - platform: waveshare_epaper
+    cs_pin: 15 #D8
+    dc_pin: 4 #D2
+    busy_pin: 16 #D0
+    reset_pin: 5 #D1
+    model: 2.90in
+    rotation: 90
+    update_interval: 1min
+    lambda: |-
+      // Rahmen zeichnen und Überschrift schreiben
+      it.rectangle(2, 12, it.get_width()-4, it.get_height()-14);
+      it.filled_rectangle(it.get_width()/3, 11, it.get_width()/3, 3, COLOR_OFF);
+      it.rectangle(it.get_width()/3, 3, it.get_width()/3, 21);
+      it.print(it.get_width()/2, 0, id(font_sourcecode), TextAlign::TOP_CENTER, "Fenster");
+      // Variablen für Positionierung der Texte und Kacheln
+      int text_x = 25;
+      int text_h = 20;
+      int offs_x = 10;
+      int offs_y = 25;
+      int rect_x = 3;
+      int rect_h = 8;
+      // Raumnamen schreiben
+      it.print(text_x, 0*text_h+offs_y, id(font_sourcecode), "Steffi");
+      it.print(text_x, 1*text_h+offs_y, id(font_sourcecode), "Thomas");
+      it.print(text_x, 2*text_h+offs_y, id(font_sourcecode), "Küche");
+      it.print(text_x, 3*text_h+offs_y, id(font_sourcecode), "Wohnzimmer");
+      // Kacheln zeichnen abhängig vom Status
+      if (id(fenster_thomas).state) {
+        it.rectangle(rect_x+offs_x, 0*text_h+rect_h+offs_y, 10, 10);
+      }
+      else {
+        it.filled_rectangle(rect_x+offs_x, 0*text_h+rect_h+offs_y, 10, 10);
+      }
+      if (id(fenster_thomas).state) {
+        it.rectangle(rect_x+offs_x, 1*text_h+rect_h+offs_y, 10, 10);
+      }
+      else {
+        it.filled_rectangle(rect_x+offs_x, 1*text_h+rect_h+offs_y, 10, 10);
+      }
+      if (id(fenster_kueche).state) {
+        it.rectangle(rect_x+offs_x, 2*text_h+rect_h+offs_y, 10, 10);
+      }
+      else {
+        it.filled_rectangle(rect_x+offs_x, 2*text_h+rect_h+offs_y, 10, 10);
+      }
+      if (id(fenster_wohnzimmer).state) {
+        it.rectangle(rect_x+offs_x, 3*text_h+rect_h+offs_y, 10, 10);
+      }
+      else {
+        it.filled_rectangle(rect_x+offs_x, 3*text_h+rect_h+offs_y, 10, 10);
+      }

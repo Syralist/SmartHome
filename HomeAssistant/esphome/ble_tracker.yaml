@@ -1,0 +1,43 @@
+esphome:
+  name: ble_tracker
+  platform: ESP32
+  board: lolin32
+
+wifi:
+  ssid: !secret wifi-ssid
+  password: !secret wifi-password
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret esphome-password
+
+ota:
+  password: !secret esphome-password
+
+# mqtt:
+#   broker: 192.168.2.130
+#   username: !secret mqtt_user
+#   password: !secret mqtt_pass
+
+i2c:
+  sda: 5
+  scl: 4
+  scan: True
+
+font:
+  - file: "SourceCodePro-Regular.ttf"
+    id: font_sourcecode_regular
+    size: 20
+
+display:
+  - platform: ssd1306_i2c
+    model: "SSD1306 128x64"
+    address: 0x3C
+    lambda: |-
+      it.print(0, 0, id(font_sourcecode_regular), "Hello World!");
+
+esp32_ble_tracker:
+  scan_interval: 30s

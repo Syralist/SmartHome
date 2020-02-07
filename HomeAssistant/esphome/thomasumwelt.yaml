@@ -1,0 +1,54 @@
+esphome:
+  name: thomasumwelt
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: !secret wifi-ssid
+  password: !secret wifi-password
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: !secret esphome-password
+
+ota:
+  password: !secret esphome-password
+
+# mqtt:
+#   broker: 192.168.2.130
+#   username: !secret mqtt_user
+#   password: !secret mqtt_pass
+
+i2c:
+  sda: 4
+  scl: 5
+  scan: True
+
+sensor:
+  - platform: bme280
+    temperature:
+      name: "Thomas Zimmer Temperatur"
+      oversampling: 16x
+      filters:
+        - offset: -7.0
+    pressure:
+      name: "Thomas Zimmer Luftdruck"
+    humidity:
+      name: "Thomas Zimmer Feuchtigkeit"
+      filters:
+        - offset: +10.0
+    address: 0x76
+    update_interval: 60s
+
+binary_sensor:
+  - platform: gpio
+    pin: 
+      number: D3
+      mode: INPUT_PULLUP
+      inverted: True
+    name: "Thomas Zimmer Button"
+    filters:
+      - delayed_on: 10ms

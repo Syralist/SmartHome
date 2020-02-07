@@ -1,57 +1,169 @@
-- alias: "Power state on HA start-up"
+- alias: Power state on HA start-up
   trigger:
     platform: homeassistant
     event: start
   action:
-    - service: mqtt.publish
-      data:
-        topic: "home/thomaszimmer/sonoff/cmnd/POWER"
-        payload: ""
-    - service: mqtt.publish
-      data:
-        topic: "home/keller/waschmaschine/cmnd/POWER"
-        payload: ""
-    - service: mqtt.publish
-      data:
-        topic: "home/keller/sonoff/cmnd/POWER"
-        payload: ""
-    - service: mqtt.publish
-      data:
-        topic: 'shellies/command'
-        payload: 'update'
-- alias: "Wöchentliches Backup"
+  - service: mqtt.publish
+    data:
+      topic: home/thomaszimmer/sonoff/cmnd/POWER
+      payload: ''
+  - service: mqtt.publish
+    data:
+      topic: home/keller/waschmaschine/cmnd/POWER
+      payload: ''
+  - service: mqtt.publish
+    data:
+      topic: home/keller/sonoff/cmnd/POWER
+      payload: ''
+  - service: mqtt.publish
+    data:
+      topic: shellies/command
+      payload: update
+  id: 5b000bf29344441d9525a2df04f6be56
+- alias: Wöchentliches Backup
   trigger:
     platform: time
-    at: "01:00:00"
+    at: 01:00:00
   condition:
     condition: time
     weekday:
-      - mon
+    - mon
   action:
-    - service: hassio.snapshot_full
-      data_template:
-        name: Automated Backup {{ now().strftime('%Y-%m-%d') }}
-        password: !secret http_password
+  - service: hassio.snapshot_full
+    data_template:
+      name: Automated Backup {{ now().strftime('%Y-%m-%d') }}
+  id: 895a18dca5214b18be191be3b9a8ff2e
+- alias: Homematic CCU Reboot
+  trigger:
+    platform: state
+    entity_id: sensor.v_last_reboot
+  action:
+    service: homematic.reconnect
+  id: 294b8e31fa5341a3b53f55ad366127a5
+- alias: Mark a person as just arrived
+  trigger:
+  - platform: state
+    entity_id: person.thomas
+    from: not_home
+    to: home
+  - platform: state
+    entity_id: person.steffi
+    from: not_home
+    to: home
+  action:
+  - service: input_select.select_option
+    data_template:
+      entity_id: "{% if trigger.entity_id == 'person.thomas' %}\n  input_select.thomas_status_dropdown\n\
+        {% else %}\n  input_select.steffi_status_dropdown\n{% endif %}\n"
+      option: "{% if trigger.entity_id == 'person.thomas' %}\n  {% if states.input_select.thomas_status_dropdown.state\
+        \ == 'gerade raus' %}\n    zu Hause\n  {% else %}\n    gerade angekommen\n\
+        \  {% endif %}\n{% else %}\n  {% if states.input_select.steffi_status_dropdown.state\
+        \ == 'gerade raus' %}\n    zu Hause\n  {% else %}\n    gerade angekommen\n\
+        \  {% endif %}\n{% endif %}\n"
+  id: 5d25fd22ed4646c7bbb7ba7169c913ec
+- alias: Mark a person as home
+  trigger:
+  - platform: state
+    entity_id: input_select.thomas_status_dropdown
+    to: gerade angekommen
+    for:
+      minutes: 10
+  - platform: state
+    entity_id: input_select.steffi_status_dropdown
+    to: gerade angekommen
+    for:
+      minutes: 10
+  action:
+  - service: input_select.select_option
+    data_template:
+      entity_id: "{% if trigger.entity_id == 'input_select.thomas_status_dropdown'\
+        \ %}\n  input_select.thomas_status_dropdown\n{% else %}\n  input_select.steffi_status_dropdown\n\
+        {% endif %}\n"
+      option: zu Hause
+  id: 6a0f61c35dd54348a31845d3e0c91d48
+- alias: Mark a person as just left
+  trigger:
+  - platform: state
+    entity_id: person.thomas
+    from: home
+    to: not_home
+  - platform: state
+    entity_id: person.steffi
+    from: home
+    to: not_home
+  action:
+  - service: input_select.select_option
+    data_template:
+      entity_id: "{% if trigger.entity_id == 'person.thomas' %}\n  input_select.thomas_status_dropdown\n\
+        {% else %}\n  input_select.steffi_status_dropdown\n{% endif %}\n"
+      option: gerade raus
+  id: 6a7a70b61f93454fbfe52429cb701cea
+- alias: Mark a person as away
+  trigger:
+  - platform: state
+    entity_id: input_select.thomas_status_dropdown
+    to: gerade raus
+    for:
+      minutes: 10
+  - platform: state
+    entity_id: input_select.steffi_status_dropdown
+    to: gerade raus
+    for:
+      minutes: 10
+  action:
+  - service: input_select.select_option
+    data_template:
+      entity_id: "{% if trigger.entity_id == 'input_select.thomas_status_dropdown'\
+        \ %}\n  input_select.thomas_status_dropdown\n{% else %}\n  input_select.steffi_status_dropdown\n\
+        {% endif %}\n"
+      option: unterwegs
+  id: 2c1e980475d048428f394b95739d43a8
+- alias: Mark a person as extended away
+  trigger:
+  - platform: state
+    entity_id: input_select.thomas_status_dropdown
+    to: unterwegs
+    for:
+      hours: 24
+  - platform: state
+    entity_id: input_select.steffi_status_dropdown
+    to: unterwegs
+    for:
+      hours: 24
+  action:
+  - service: input_select.select_option
+    data_template:
+      entity_id: "{% if trigger.entity_id == 'input_select.thomas_status_dropdown'\
+        \ %}\n  input_select.thomas_status_dropdown\n{% else %}\n  input_select.steffi_status_dropdown\n\
+        {% endif %}\n"
+      option: lange weg
+  id: 5881c7a72a8e49bb98623f722f4d8f87
+- id: '1569956400494'
+  alias: Alexa Timer
+  trigger:
+  - platform: template
+    value_template: '{% if not is_state("sensor.thomas_next_timer", "None") -%}
 
-# - alias: NeoPixel Animation Speed Send
-#   initial_state: true
-#   hide_entity: false
-#   trigger:
-#   - entity_id: input_number.neopixel_animation_speed
-#     platform: state
-#   action:
-#   - data_template:
-#       payload_template: '{"speed": {{ trigger.to_state.state | int }}}'
-#       retain: true
-#       topic: home/McLightingThomas_ha/state/in
-#     service: mqtt.publish
+      {{as_timestamp(now()) > as_timestamp(states("sensor.thomas_next_timer"))}}
 
-# - alias: NeoPixel Animation Speed Receive
-#   trigger:
-#   - platform: mqtt
-#     topic: home/McLightingThomas_ha/state/out
-#   action:
-#   - data_template:
-#       entity_id: input_number.neopixel_animation_speed
-#       value: '{{ trigger.payload_json.speed | int }}'
-#     service: input_number.set_value
+      {%- else -%}
+
+      False
+
+      {%- endif -%}'
+  condition: []
+  action:
+  - data:
+      message: Timer abgelaufen
+    service: system_log.write
+- id: '1570806214584'
+  alias: Set Theme on Startup
+  description: ''
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data:
+      name: slate
+    service: frontend.set_theme

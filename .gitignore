@@ -29,11 +29,11 @@ _autosave-*
 # Created by https://www.gitignore.io/api/visualstudiocode
 
 ### VisualStudioCode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+**/.vscode/*
+# !.vscode/settings.json
+# !.vscode/tasks.json
+# !.vscode/launch.json
+# !.vscode/extensions.json
 .history
 
 
@@ -62,6 +62,9 @@ plex.conf
 pyozw.sqlite
 secrets.yaml
 tradfri.conf
+*.pickle
+.cloud/
+.storage/
 
 # Temporary files
 *.db-journal
@@ -71,7 +74,7 @@ tts
 # automatically downloaded dependencies
 deps
 lib
-# www
+www
 
 # Log files
 home-assistant.log
@@ -79,6 +82,8 @@ ozw_log.txt
 
 # Development files
 custom_components/
+node-red/
+*.ttf
 
 
 # End of https://www.gitignore.io/api/HomeAssistant

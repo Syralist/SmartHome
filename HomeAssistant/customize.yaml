@@ -14,7 +14,7 @@ switch.sonoff_waschmaschine:
 binary_sensor.waschmaschine:
   device_class: power
   icon: mdi:washing-machine
-binary_sensor.fenster_kueche:
+binary_sensor.fenster_kuche:
   device_class: window
 binary_sensor.fenster_steffi:
   device_class: window
@@ -35,9 +35,11 @@ sensor.samsung_clx3300_series_1921682100_toner_magenta:
 sensor.samsung_clx3300_series_1921682100_toner_yellow:
   friendly_name: Gelb
 switch.deko1:
+  friendly_name: Deko Wohnzimmer
   icon: mdi:lamp
 switch.deko2:
-  icon: mdi:pine-tree
+  friendly_name: Deko Küche
+  icon: mdi:floor-lamp-variant
 switch.deko3:
   icon: mdi:star-face
 switch.deko4:
@@ -50,6 +52,10 @@ automation.thomas_geht_schlafen:
   icon: mdi:sleep
 person.thomas:
   entity_picture: https://secure.gravatar.com/avatar/8a54bf670ce6cb3e3acd11df35df350d
+sensor.thomas_status:
+  entity_picture: https://secure.gravatar.com/avatar/8a54bf670ce6cb3e3acd11df35df350d
+sensor.steffi_status:
+  entity_picture: /local/Steffi.jpg
 sensor.vicare_outsidetemperature:
   friendly_name: Aussentemperatur
 zone.thomas_thomashandy_arbeit:
@@ -74,3 +80,37 @@ sensor.muellabfuhrabgeholt:
   icon: mdi:trash-can-outline
 cover.rollladen_thomas:
   device_class: shade
+climate.000393c99b850c:
+  friendly_name: Thermostat Bad
+binary_sensor.tur_thomas:
+  device_class: door
+person.steffi:
+  entity_picture: /local/Steffi.jpg
+binary_sensor.jemandzuhause:
+  device_class: presence
+switch.stern:
+  icon: mdi:star-face
+switch.dekosteffi:
+  device_class: outlet
+  icon: mdi:lightbulb-on-outline
+media_player.fernseher:
+  icon: mdi:television-clean
+automation.alexa_timer: {}
+binary_sensor.fenster_badezimmer:
+  device_class: window
+sensor.black_toner_s_n_crum_191010a1896:
+  friendly_name: Black Toner
+sensor.cyan_toner_s_n_crum_191010a240d:
+  friendly_name: Cyan Toner
+sensor.magenta_toner_s_n_crum_191010a229d:
+  friendly_name: Magenta Toner
+sensor.yellow_toner_s_n_crum_191010a1d15:
+  friendly_name: Yellow Toner
+binary_sensor.tuer_waschmaschine:
+  device_class: door
+sensor.feuchtigkeit_badezimmer:
+  icon: mdi:water-percent
+sensor.feuchtigkeit_kueche:
+  icon: mdi:water-percent
+sensor.vicare_aussentemperatur:
+  icon: mdi:thermometer-lines

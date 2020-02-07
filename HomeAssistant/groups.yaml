@@ -24,18 +24,13 @@ flur:
     - binary_sensor.haustur
 
 wohnzimmer:
-  name: Wohnzimmer
-  icon: mdi:sofa
+  name: Licht
+  icon: mdi:lightbulb-multiple
   entities:
     - light.wohnzimmer
-    - light.lixieclock
+    - light.lixie_clock
     - switch.deko1
-    - sensor.wohnzimmer_temperatur
-    - sensor.wohnzimmer_luftfeuchtigkeit
-    - sensor.wohnzimmer_luftdruck
-    - scene.film_gucken
-    - media_player.fernseher
-    - binary_sensor.fenster_wohnzimmer
+    - light.sofa
 
 steffiszimmer:
   name: Steffis Zimmer
@@ -48,20 +43,12 @@ steffiszimmer:
     - binary_sensor.fenster_steffi
 
 thomaszimmer:
-  name: Thomas Zimmer
-  icon: mdi:bed-empty
+  name: Arbeitsplatz
+  icon: mdi:desk
   entities:
-    - light.led_licht_1
     - switch.sonoff_rechner
     - switch.synology_nas
     - switch.steffi_desktop
-    - automation.thomas_geht_schlafen
-    - sensor.thomas_zimmer_temperatur
-    - sensor.thomas_zimmer_luftfeuchtigkeit
-    - sensor.thomas_zimmer_luftdruck
-    - binary_sensor.fenster_thomas
-    - climate.0012999395e750
-    # - group.samsungprinter
 
 keller:
   name: Keller
@@ -89,26 +76,6 @@ anwesenheit:
     - device_tracker.handysteffifritzbox
     # - device_tracker.a028edd9f84c
     - person.thomas
-
-systeminfo:
-  name: System Informationen
-  icon: mdi:raspberrypi
-  view: yes
-  entities:
-    - group.samsungprinter
-    - group.systempi
-    - group.batterylevels
-    - group.fritzbox
-
-samsungprinter:
-  name: Drucker
-  icon: mdi:printer
-  control: hidden
-  entities:
-    - sensor.samsung_clx3300_series_1921682101_toner_black
-    - sensor.samsung_clx3300_series_1921682101_toner_cyan
-    - sensor.samsung_clx3300_series_1921682101_toner_magenta
-    - sensor.samsung_clx3300_series_1921682101_toner_yellow
 
 systempi:
   name: Raspberry Host
@@ -158,15 +125,13 @@ heizung:
     - climate.vicare_heating
     - climate.vicare_water
     - group.vicare
-
-vicare:
-  name: ViCare
+    
+fenster:
+  name: Fenster
   entities:
-    - sensor.vicare_activemode
-    - sensor.vicare_activeprogram
-    - sensor.vicare_boilertemperature
-    - sensor.vicare_currentdesiredtemperature
-    - sensor.vicare_domestichotwaterconfiguredtemperature
-    - sensor.vicare_domestichotwaterstoragetemperature
-    - sensor.vicare_outsidetemperature
-    - sensor.vicare_supplytemperature
+    - binary_sensor.fenster_kuche
+    - binary_sensor.fenster_steffi
+    - binary_sensor.fenster_wohnzimmer
+    - binary_sensor.tur_thomas
+    
+
