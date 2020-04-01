@@ -1,0 +1,12 @@
+platform: template
+sensors:
+  homeoffice:
+    friendly_name: "Home Office"
+    value_template: "{{ is_state('input_boolean.homeoffice', 'on') }}"
+  jemandzuhause:
+    friendly_name: "Jemand ist zu Hause"
+    value_template: >-
+                    {{is_state('sensor.thomas_status','zu Hause') or 
+                    is_state('sensor.thomas_status','gerade angekommen') or
+                    is_state('sensor.steffi_status','zu Hause') or 
+                    is_state('sensor.steffi_status','gerade angekommen')}}

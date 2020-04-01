@@ -1,0 +1,38 @@
+platform: template
+sensors:
+  battery_thermo_bad:
+    friendly_name: 'Thermostat Badezimmer'
+    entity_id: climate.000393c99b850c
+    value_template: "{{ states.climate['000393c99b850c'].attributes.battery if states.climate['000393c99b850c'] is not none }}"
+    icon_template: "{% if is_state_attr('climate.000393c99b850c', 'battery', 'High') %}
+                        mdi:battery
+                    {% else %}
+                        battery-outline
+                    {% endif %}"
+  battery_thermo_thomas:
+    friendly_name: 'Thermostat Thomas'
+    entity_id: climate.0012999395e750
+    value_template: "{{ states.climate['0012999395e750'].attributes.battery if states.climate['0012999395e750'] is not none }}"
+    icon_template: "{% if is_state_attr('climate.0012999395e750', 'battery', 'High') %}
+                        mdi:battery
+                    {% else %}
+                        battery-outline
+                    {% endif %}"
+  battery_fenster_steffi:
+    friendly_name: 'Fenster Steffi'
+    entity_id: binary_sensor.fenster_steffi
+    value_template: "{{ states.binary_sensor['fenster_steffi'].attributes.battery if states.binary_sensor['fenster_steffi'] is not none }}"
+    icon_template: "{% if is_state_attr('binary_sensor.fenster_steffi', 'battery', 'High') %}
+                        mdi:battery
+                    {% else %}
+                        battery-outline
+                    {% endif %}"
+  battery_keller_wasser:
+    friendly_name: 'Keller Wasser'
+    entity_id: binary_sensor.001898a99f52dc_alarmstate
+    value_template: "{{ states.binary_sensor['001898a99f52dc_alarmstate'].attributes.battery if states.binary_sensor['001898a99f52dc_alarmstate'] is not none }}"
+    icon_template: "{% if is_state_attr('binary_sensor.001898a99f52dc_alarmstate', 'battery', 'High') %}
+                        mdi:battery
+                    {% else %}
+                        battery-outline
+                    {% endif %}"

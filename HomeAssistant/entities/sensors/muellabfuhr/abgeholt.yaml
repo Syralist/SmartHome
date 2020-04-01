@@ -1,0 +1,4 @@
+platform: file
+name: MuellabfuhrAbgeholt
+file_path: /share/sensor/MuellabfuhrZaehler.json
+value_template: '{{ value_json.abgeholt }}'

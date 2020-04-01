@@ -1,0 +1,12 @@
+platform: template
+sensors:
+  fritz_download_rate:
+    friendly_name: "Fritzbox Downstream"
+    icon_template: mdi:download-network-outline
+    unit_of_measurement: 'Mbit/s'
+    value_template: "{{ states.sensor.fritz_netmonitor.attributes.transmission_rate_down/125000 }}"
+  fritz_upload_rate:
+    friendly_name: "Fritzbox Upstream"
+    icon_template: mdi:upload-network-outline
+    unit_of_measurement: 'bytes/s'
+    value_template: "{{ states.sensor.fritz_netmonitor.attributes.transmission_rate_up }}"

@@ -1,0 +1,7 @@
+platform: filter
+name: "Waschmaschine Leistung glatt"
+entity_id: sensor.waschmaschine_leistung
+filters:
+  - filter: lowpass
+    time_constant: 10
+    precision: 2

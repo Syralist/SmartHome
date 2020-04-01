@@ -1,0 +1,7 @@
+platform: filter
+name: "Waschmaschine Leistung average"
+entity_id: sensor.waschmaschine_leistung
+filters:
+  - filter: time_simple_moving_average
+    window_size: 00:03
+    precision: 2

@@ -1,0 +1,12 @@
+platform: mqtt
+name: "Sonoff Rechner"
+state_topic: "home/thomaszimmer/sonoff/stat/RESULT" #"stat/sonoff/POWER"
+value_template: '{{ value_json["POWER"] }}'
+command_topic: "home/thomaszimmer/sonoff/cmnd/POWER" #"cmnd/sonoff/POWER"
+availability_topic: "home/thomaszimmer/sonoff/tele/LWT" #"tele/sonoff/LWT"
+qos: 1
+payload_on: "ON"
+payload_off: "OFF"
+payload_available: "Online"
+payload_not_available: "Offline"
+retain: true

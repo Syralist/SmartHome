@@ -1,0 +1,17 @@
+alias: Mark a person as just left
+id: 6a7a70b61f93454fbfe52429cb701cea
+trigger:
+- platform: state
+  entity_id: person.thomas
+  from: home
+  to: not_home
+- platform: state
+  entity_id: person.steffi
+  from: home
+  to: not_home
+action:
+- service: input_select.select_option
+  data_template:
+    entity_id: "{% if trigger.entity_id == 'person.thomas' %}\n  input_select.thomas_status_dropdown\n\
+      {% else %}\n  input_select.steffi_status_dropdown\n{% endif %}\n"
+    option: gerade raus

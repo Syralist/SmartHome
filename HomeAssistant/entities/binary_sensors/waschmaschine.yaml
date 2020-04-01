@@ -1,0 +1,9 @@
+platform: template
+sensors:
+  waschmaschine:
+    friendly_name: "Waschmaschine läuft"
+    value_template: "{{ states('sensor.waschmaschine_leistung_average')|float > 4.0 }}"
+    delay_off:
+      minutes: 3
+    delay_on:
+      minutes: 6

@@ -1,0 +1,5 @@
+platform: template
+sensors:
+  zirkulationspumpe:
+    friendly_name: "Zirkulationspumpe"
+    value_template: "{{ state_attr('climate.vicare_heating', 'circulationpump_active') }}"

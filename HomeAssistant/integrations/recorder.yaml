@@ -1,0 +1,13 @@
+# reduce DB size by configuring the recorder component
+recorder:
+#  purge_keep_days: 1
+#  purge_interval: 1
+  db_url: !secret maria_url
+  exclude:
+    domains:
+      - automation
+      - weblink
+      - updater
+    entities:
+      - sun.sun
+      - sensor.date

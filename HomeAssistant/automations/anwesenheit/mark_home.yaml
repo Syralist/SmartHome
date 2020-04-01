@@ -1,0 +1,20 @@
+alias: Mark a person as home
+id: 6a0f61c35dd54348a31845d3e0c91d48
+trigger:
+- platform: state
+  entity_id: input_select.thomas_status_dropdown
+  to: gerade angekommen
+  for:
+    minutes: 10
+- platform: state
+  entity_id: input_select.steffi_status_dropdown
+  to: gerade angekommen
+  for:
+    minutes: 10
+action:
+- service: input_select.select_option
+  data_template:
+    entity_id: "{% if trigger.entity_id == 'input_select.thomas_status_dropdown'\
+      \ %}\n  input_select.thomas_status_dropdown\n{% else %}\n  input_select.steffi_status_dropdown\n\
+      {% endif %}\n"
+    option: zu Hause

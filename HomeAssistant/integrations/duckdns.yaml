@@ -1,0 +1,3 @@
+duckdns:
+  domain: helmkeaufdemkamp
+  access_token: !secret ducktoken

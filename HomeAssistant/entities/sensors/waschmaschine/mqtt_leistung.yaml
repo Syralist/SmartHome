@@ -1,0 +1,6 @@
+platform: mqtt
+name: "Waschmaschine Leistung"
+state_topic: "home/keller/waschmaschine/tele/SENSOR"
+value_template: '{{ value_json["ENERGY"]["Power"] }}'
+unit_of_measurement: "W"
+icon: mdi:gauge-full

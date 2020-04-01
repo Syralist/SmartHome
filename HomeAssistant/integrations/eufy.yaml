@@ -1,0 +1,8 @@
+eufy:
+  #username: !secret eufy_user
+  #password: !secret eufy_pass
+  devices:
+    - address: 192.168.2.80
+      access_token: D4815FED5B704609
+      type: T1011
+      name: Lampe

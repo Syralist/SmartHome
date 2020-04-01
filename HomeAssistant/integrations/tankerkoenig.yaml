@@ -1,0 +1,8 @@
+tankerkoenig:
+  api_key: !secret tanker_api_key
+  radius: 1
+  scan_interval: "0:31:32"
+  fuel_types:
+    - "e10"
+  stations:
+    - ac275308-e6de-4e14-a593-89183cf8e504

@@ -1,0 +1,8 @@
+steffi_status_dropdown:
+  name: Steffi
+  options:
+    - zu Hause
+    - gerade angekommen
+    - gerade raus
+    - unterwegs
+    - lange weg

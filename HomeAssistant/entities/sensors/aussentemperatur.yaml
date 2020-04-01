@@ -1,0 +1,6 @@
+platform: template
+sensors:
+  vicare_aussentemperatur:
+    value_template: "{{state_attr('climate.vicare_heating', 'outside_temperature')}}"
+    unit_of_measurement: "°C"
+    friendly_name: Aussentemperatur

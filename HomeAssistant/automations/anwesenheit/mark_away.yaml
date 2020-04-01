@@ -1,0 +1,20 @@
+alias: Mark a person as away
+id: 2c1e980475d048428f394b95739d43a8
+trigger:
+- platform: state
+  entity_id: input_select.thomas_status_dropdown
+  to: gerade raus
+  for:
+    minutes: 10
+- platform: state
+  entity_id: input_select.steffi_status_dropdown
+  to: gerade raus
+  for:
+    minutes: 10
+action:
+- service: input_select.select_option
+  data_template:
+    entity_id: "{% if trigger.entity_id == 'input_select.thomas_status_dropdown'\
+      \ %}\n  input_select.thomas_status_dropdown\n{% else %}\n  input_select.steffi_status_dropdown\n\
+      {% endif %}\n"
+    option: unterwegs

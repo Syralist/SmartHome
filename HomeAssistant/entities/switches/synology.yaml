@@ -1,0 +1,8 @@
+platform: wake_on_lan
+mac: "00-11-32-37-21-3D"
+name: "Synology NAS"
+host: "192.168.2.151"
+turn_off:
+  service: shell_command.turn_off_nas
+  data:
+    secret_url: !secret syno_cmd_url

@@ -1,0 +1,6 @@
+temperatur_hoch:
+  name: hohe Temperatur
+  min: 15
+  max: 25
+  step: 1
+  initial: 21

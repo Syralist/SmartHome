@@ -1,0 +1,9 @@
+platform: wake_on_lan
+mac: "BC-5F-F4-59-14-77"
+name: "Big Whoop"
+host: "192.168.2.99"
+turn_off:
+  service: mqtt.publish
+  data:
+    topic: "iotlink/workgroup/big-whoop/commands/hibernate"
+    payload: ""

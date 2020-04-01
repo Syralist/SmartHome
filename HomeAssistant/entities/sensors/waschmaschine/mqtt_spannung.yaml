@@ -1,0 +1,6 @@
+platform: mqtt
+name: "Waschmaschine Spannung"
+state_topic: "home/keller/waschmaschine/tele/SENSOR"
+value_template: '{{ value_json["ENERGY"]["Voltage"] }}'
+unit_of_measurement: "V"
+icon: mdi:gauge-low

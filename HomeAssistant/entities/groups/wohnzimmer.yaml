@@ -1,0 +1,8 @@
+wohnzimmer:
+  name: Licht
+  icon: mdi:lightbulb-multiple
+  entities:
+    - light.wohnzimmer
+    - light.lixie_clock
+    - switch.deko1
+    - light.sofa

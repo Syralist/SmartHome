@@ -1,0 +1,8 @@
+fenster:
+  name: Fenster
+  entities:
+    - binary_sensor.fenster_kuche
+    - binary_sensor.fenster_steffi
+    - binary_sensor.fenster_wohnzimmer
+    - binary_sensor.tur_thomas
+    - binary_sensor.fenster_badezimmer

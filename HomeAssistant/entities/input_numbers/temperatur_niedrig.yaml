@@ -1,0 +1,6 @@
+temperatur_niedrig:
+  name: niedrige Temperatur
+  min: 15
+  max: 25
+  step: 1
+  initial: 18

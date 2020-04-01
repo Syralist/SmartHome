@@ -1,0 +1,4 @@
+platform: file
+name: MuellabfuhrSparziel
+file_path: /share/sensor/MuellabfuhrZaehler.json
+value_template: '{{ value_json.sparziel }}'

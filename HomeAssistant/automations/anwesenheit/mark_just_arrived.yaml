@@ -1,0 +1,21 @@
+alias: Mark a person as just arrived
+id: 5d25fd22ed4646c7bbb7ba7169c913ec
+trigger:
+- platform: state
+  entity_id: person.thomas
+  from: not_home
+  to: home
+- platform: state
+  entity_id: person.steffi
+  from: not_home
+  to: home
+action:
+- service: input_select.select_option
+  data_template:
+    entity_id: "{% if trigger.entity_id == 'person.thomas' %}\n  input_select.thomas_status_dropdown\n\
+      {% else %}\n  input_select.steffi_status_dropdown\n{% endif %}\n"
+    option: "{% if trigger.entity_id == 'person.thomas' %}\n  {% if states.input_select.thomas_status_dropdown.state\
+      \ == 'gerade raus' %}\n    zu Hause\n  {% else %}\n    gerade angekommen\n\
+      \  {% endif %}\n{% else %}\n  {% if states.input_select.steffi_status_dropdown.state\
+      \ == 'gerade raus' %}\n    zu Hause\n  {% else %}\n    gerade angekommen\n\
+      \  {% endif %}\n{% endif %}\n"

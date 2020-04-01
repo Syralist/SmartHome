@@ -1,0 +1,6 @@
+platform: template
+sensors:
+  v_last_reboot:
+    value_template: "{{ state_attr('homematic.ccu2', 'V_Last_Reboot') or '01.01.1970 00:00:00' }}"
+    icon_template: "mdi:clock"
+    entity_id: homematic.ccu2

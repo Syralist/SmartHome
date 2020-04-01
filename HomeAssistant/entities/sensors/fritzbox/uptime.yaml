@@ -1,0 +1,40 @@
+platform: template
+sensors:
+  fritz_uptime:
+    friendly_name: "Fritzbox Uptime"
+    icon_template: mdi:clock-outline
+    value_template: "{% set uptime = states.sensor.fritz_netmonitor.attributes.uptime | int %}
+                      {% set minutes = ((uptime % 3600) / 60) | int %} 
+                      {% set hours = ((uptime % 86400) / 3600) | int %}
+                      {% set days = (uptime / 86400) | int %}
+                      {%- if uptime < 1 -%}
+                        Weniger als eine Minute
+                      {%- else -%}
+                        {%- if days > 0 -%}
+                          {%- if days == 1 -%}
+                            1 Tag
+                          {%- else -%}
+                            {{ days }} Tage
+                          {%- endif -%}
+                        {%- endif -%}
+                        {%- if hours > 0 -%}
+                          {%- if days > 0 -%}
+                            {{ ', ' }}
+                          {%- endif -%}
+                          {%- if hours == 1 -%}
+                            1 Stunde
+                          {%- else -%}
+                            {{ hours }} Stunden
+                          {%- endif -%}
+                        {%- endif -%}
+                        {%- if minutes > 0 -%}
+                          {%- if days > 0 or hours > 0 -%}
+                            {{ ', ' }}
+                          {%- endif -%}
+                          {%- if minutes == 1 -%}
+                            1 Minute
+                          {%- else -%}
+                            {{ minutes }} Minuten
+                          {%- endif -%}
+                        {%- endif -%}
+                      {%- endif -%}"

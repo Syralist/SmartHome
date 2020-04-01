@@ -1,0 +1,9 @@
+waschmaschine:
+  name: Waschmaschine
+  icon: mdi:washing-machine
+  entities:
+    - binary_sensor.waschmaschine
+    - sensor.waschmaschine_leistung
+    - sensor.waschmaschine_energie
+    - sensor.waschmaschine_spannung
+    - sensor.waschmaschine_strom

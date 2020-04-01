@@ -1,0 +1,4 @@
+platform: androidtv
+host: 192.168.2.50
+name: Fernseher
+adb_server_ip: 127.0.0.1

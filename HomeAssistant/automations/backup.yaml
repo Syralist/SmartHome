@@ -1,0 +1,13 @@
+alias: Wöchentliches Backup
+id: 895a18dca5214b18be191be3b9a8ff2e
+trigger:
+  platform: time
+  at: 01:00:00
+condition:
+  condition: time
+  weekday:
+  - mon
+action:
+- service: hassio.snapshot_full
+  data_template:
+    name: Automated Backup {{ now().strftime('%Y-%m-%d') }}

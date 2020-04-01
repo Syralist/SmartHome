@@ -1,0 +1,7 @@
+thomaszimmer:
+  name: Arbeitsplatz
+  icon: mdi:desk
+  entities:
+    - switch.sonoff_rechner
+    - switch.synology_nas
+    - switch.steffi_desktop

@@ -1,0 +1,5 @@
+muellabfuhr_slider:
+  name: Müllabfuhr abgeholt
+  min: 0
+  max: 27
+  step: 1

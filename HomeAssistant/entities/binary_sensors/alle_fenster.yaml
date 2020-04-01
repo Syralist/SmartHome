@@ -1,0 +1,6 @@
+platform: template
+sensors:
+  allefenster:
+    friendly_name: "Alle Fenster"
+    entity_id: group.fenster
+    value_template: "{{ expand('group.fenster') | selectattr('state', 'eq', 'on') | list | count > 0 }}"

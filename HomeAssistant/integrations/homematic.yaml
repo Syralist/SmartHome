@@ -1,0 +1,19 @@
+homematic:
+  interfaces:
+    rf:
+      host: 192.168.2.120
+      port: 2001
+      resolvenames: json
+      username: !secret homematic_user
+      password: !secret homematic_pass
+    ip:
+      host: 192.168.2.120
+      port: 2010
+      resolvenames: json
+      username: !secret homematic_user
+      password: !secret homematic_pass
+  hosts:
+    ccu2:
+      host: 192.168.2.120
+      username: !secret homematic_user
+      password: !secret homematic_pass

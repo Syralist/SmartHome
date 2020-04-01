@@ -1,0 +1,22 @@
+alias: Power state on HA start-up
+id: 5b000bf29344441d9525a2df04f6be56
+trigger:
+  platform: homeassistant
+  event: start
+action:
+- service: mqtt.publish
+  data:
+    topic: home/thomaszimmer/sonoff/cmnd/POWER
+    payload: ''
+- service: mqtt.publish
+  data:
+    topic: home/keller/waschmaschine/cmnd/POWER
+    payload: ''
+- service: mqtt.publish
+  data:
+    topic: home/keller/sonoff/cmnd/POWER
+    payload: ''
+- service: mqtt.publish
+  data:
+    topic: shellies/command
+    payload: update

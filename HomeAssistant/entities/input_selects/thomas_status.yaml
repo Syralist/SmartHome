@@ -1,0 +1,8 @@
+thomas_status_dropdown:
+  name: Thomas
+  options:
+    - zu Hause
+    - gerade angekommen
+    - gerade raus
+    - unterwegs
+    - lange weg
