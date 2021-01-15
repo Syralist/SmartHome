@@ -27,3 +27,739 @@
   - data:
       name: slate
     service: frontend.set_theme
+- id: '1600965268386'
+  alias: Klingel Benachrichtigung
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 8c09d947fe8211ea8b31f53de091074e
+    type: button_short_press
+    subtype: button_1
+    discovery_id: klingel_sensor
+  condition: []
+  action:
+  - service: notify.mobile_app_nokia_9
+    data:
+      message: Es klingelt an der Haustür!
+      title: Klingel
+  mode: single
+- id: '1602001621785'
+  alias: Wordclock schalten mit Bewegungsmelder
+  description: ''
+  trigger:
+  - type: motion
+    platform: device
+    device_id: f0db967b07ef11ebb88af93ffec9274b
+    entity_id: binary_sensor.kueche_bewegungsmelder
+    domain: binary_sensor
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 52316ec42a534993bd1079e7173c90de
+    entity_id: light.wordclock
+    domain: light
+    brightness_pct: 50
+  - wait_for_trigger:
+    - type: no_motion
+      platform: device
+      device_id: f0db967b07ef11ebb88af93ffec9274b
+      entity_id: binary_sensor.kueche_bewegungsmelder
+      domain: binary_sensor
+      for:
+        hours: 0
+        minutes: 5
+        seconds: 0
+  - type: turn_off
+    device_id: 52316ec42a534993bd1079e7173c90de
+    entity_id: light.wordclock
+    domain: light
+  mode: restart
+- id: '1602177074355'
+  alias: LED Leiste schalten mit Rechner
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: switch.big_whoop
+    to: 'on'
+  condition: []
+  action:
+  - service: light.turn_on
+    data:
+      brightness_pct: 50
+      rgb_color:
+      - 0
+      - 255
+      - 0
+    entity_id: light.led_leiste_thomas
+  - wait_for_trigger:
+    - platform: state
+      entity_id: switch.big_whoop
+      to: 'off'
+  - service: light.turn_off
+    data: {}
+    entity_id: light.led_leiste_thomas
+  mode: single
+- id: '1602177648089'
+  alias: LED Leiste grün blinken beim Klingeln
+  description: ''
+  trigger:
+  - platform: device
+    domain: mqtt
+    device_id: 8c09d947fe8211ea8b31f53de091074e
+    type: button_short_press
+    subtype: button_1
+    discovery_id: klingel_sensor
+  condition:
+  - condition: state
+    entity_id: switch.big_whoop
+    state: 'on'
+  action:
+  - service: light.turn_on
+    data:
+      effect: Green Strobe
+    entity_id: light.led_leiste_thomas
+  - delay: 0:00:30
+  - service: light.turn_on
+    data:
+      effect: None
+    entity_id: light.led_leiste_thomas
+  mode: single
+- id: '1602177996950'
+  alias: LED Leiste rot blinken bei offener Tür
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.haustur
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.big_whoop
+    state: 'on'
+  action:
+  - service: light.turn_on
+    data:
+      effect: Red Strobe
+    entity_id: light.led_leiste_thomas
+  - delay: 0:00:30
+  - service: light.turn_on
+    data:
+      effect: None
+    entity_id: light.led_leiste_thomas
+  mode: single
+- id: '1604425205762'
+  alias: Home Office an
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.homeoffice
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.vicare_heizkreisaktiv
+    state: 'on'
+  action:
+  - service: climate.set_preset_mode
+    data:
+      preset_mode: comfort
+    entity_id: climate.vicare_heating
+  mode: single
+- id: '1604425331960'
+  alias: Reset Helpers
+  description: ''
+  trigger:
+  - platform: time
+    at: 00:00
+  condition: []
+  action:
+  - service: input_boolean.turn_off
+    data: {}
+    entity_id: input_boolean.homeoffice
+  - service: input_boolean.turn_off
+    data: {}
+    entity_id: input_boolean.wochenende
+  mode: single
+- id: '1605027464256'
+  alias: Fenster Büro
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.fenster_buero
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.vicare_heizkreisaktiv
+    state: 'on'
+  action:
+  - service: scene.create
+    data:
+      scene_id: buero_snapshot
+      snapshot_entities:
+      - climate.00201a49a039a4
+  - service: climate.set_temperature
+    data:
+      temperature: '{{ states(''input_number.temperatur_niedrig'') }}'
+    entity_id: climate.00201a49a039a4
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.fenster_buero
+      to: 'off'
+  - scene: scene.buero_snapshot
+  mode: restart
+- id: '1605028953794'
+  alias: Fenster Thomas
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.tur_thomas
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.vicare_heizkreisaktiv
+    state: 'on'
+  action:
+  - service: scene.create
+    data:
+      scene_id: thomas_snapshot
+      snapshot_entities:
+      - climate.0012999395e750
+  - service: climate.set_temperature
+    data:
+      temperature: '{{ states(''input_number.temperatur_niedrig'') }}'
+    entity_id: climate.0012999395e750
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.tur_thomas
+      to: 'off'
+  - scene: scene.thomas_snapshot
+  mode: restart
+- id: '1605029110437'
+  alias: Fenster Bad
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.fenster_badezimmer
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.vicare_heizkreisaktiv
+    state: 'on'
+  action:
+  - service: scene.create
+    data:
+      scene_id: bad_snapshot
+      snapshot_entities:
+      - climate.000393c99b850c
+  - service: climate.set_temperature
+    data:
+      temperature: '{{ states(''input_number.temperatur_niedrig'') }}'
+    entity_id: climate.000393c99b850c
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.fenster_badezimmer
+      to: 'off'
+  - scene: scene.bad_snapshot
+  mode: restart
+- id: '1605029214460'
+  alias: Fenster Wohnzimmer
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.fenster_wohnzimmer
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: binary_sensor.vicare_heizkreisaktiv
+    state: 'on'
+  action:
+  - service: scene.create
+    data:
+      scene_id: wohnzimmer_snapshot
+      snapshot_entities:
+      - climate.000a18a9aa571d
+  - service: climate.set_temperature
+    data:
+      temperature: '{{ states(''input_number.temperatur_niedrig'') }}'
+    entity_id: climate.000a18a9aa571d
+  - wait_for_trigger:
+    - platform: state
+      entity_id: binary_sensor.fenster_wohnzimmer
+      to: 'off'
+  - scene: scene.wohnzimmer_snapshot
+  mode: restart
+- id: '1605109293697'
+  alias: Nach Hause kommen
+  description: ''
+  trigger:
+  - platform: zone
+    entity_id: person.thomas
+    zone: zone.home
+    event: enter
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.vicare_outside_temperature
+    below: '12'
+  - condition: time
+    after: input_datetime.nach_hause_kommen_fruh
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+  - service: climate.set_temperature
+    data:
+      temperature: '{{ states(''input_number.temperatur_hoch'') }}'
+      entity_id:
+      - climate.000393c99b850c
+      - climate.000a18a9aa571d
+      - climate.0012999395e750
+      - climate.00201a49a039a4
+  mode: single
+- id: '1605204389628'
+  alias: Shopping - Wocheneinkauf eintragen
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 889be5ea-f216-4ad3-b27a-ff50f002f559
+  condition: []
+  action:
+  - service: shopping_list.add_item
+    data:
+      name: Aufschnitt
+  - service: shopping_list.add_item
+    data:
+      name: Käse
+  - service: shopping_list.add_item
+    data:
+      name: Gurke
+  - service: shopping_list.add_item
+    data:
+      name: Möhren
+  mode: single
+- id: '1605721997490'
+  alias: Büro - Wandbutton Klick
+  description: ''
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: button_steffi
+      event: 1002
+  condition: []
+  action:
+  - service: cover.open_cover
+    data: {}
+    entity_id: cover.rolladen_buero
+  mode: single
+- id: '1605722052093'
+  alias: Büro - Wandbutton Doppelklick
+  description: ''
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: button_steffi
+      event: 1004
+  condition: []
+  action:
+  - service: cover.close_cover
+    data: {}
+    entity_id: cover.rolladen_buero
+  mode: single
+- id: '1605722466835'
+  alias: Thomas - Button Doppelklick
+  description: ''
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: smart_switch
+      event: 1004
+  condition: []
+  action:
+  - service: cover.close_cover
+    data: {}
+    entity_id: cover.rolladen_thomas
+  - service: climate.set_temperature
+    data:
+      temperature: '{{ states(''input_number.temperatur_niedrig'') }}'
+    entity_id: climate.0012999395e750
+  - service: input_boolean.turn_off
+    data: {}
+    entity_id: input_boolean.dekoration
+  mode: single
+- id: '1605722595454'
+  alias: Thomas - Button Doppelklick
+  description: ''
+  trigger:
+  - platform: event
+    event_type: deconz_event
+    event_data:
+      id: smart_switch
+      event: 1002
+  condition: []
+  action:
+  - service: cover.open_cover
+    data: {}
+    entity_id: cover.rolladen_thomas
+  mode: single
+- id: '1605723468299'
+  alias: Büro - Green Button Klick
+  description: ''
+  trigger:
+  - type: turned_on
+    platform: device
+    device_id: a4037f4fecec442baef1fe183d7e92a7
+    entity_id: binary_sensor.buro_button
+    domain: binary_sensor
+  condition: []
+  action:
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.sonoff_rechner
+  - delay: 00:00:01
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.on_off_plug_in_unit_8
+  - delay: 00:00:01
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.on_off_plug_leiste_1
+  - delay: 00:00:01
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.on_off_plug_leiste_2
+  - delay: 00:00:01
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.on_off_plug_leiste_3
+  - service: input_boolean.turn_on
+    data: {}
+    entity_id: input_boolean.arbeitsplatz
+  mode: single
+- id: '1605724353479'
+  alias: Wohnzimmer - Fernseher an (immer)
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: media_player.fernseher
+    to: idle
+  condition: []
+  action:
+  - service: light.turn_on
+    data: {}
+    entity_id: light.lixie_clock
+  - type: turn_on
+    device_id: 412036f16a3f49ca8d9705fc2789b09c
+    entity_id: switch.soundsystem_relay
+    domain: switch
+  mode: single
+- id: '1605724715718'
+  alias: Wohnzimmer - Fernseher an (im dunkeln)
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: media_player.fernseher
+    to: idle
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: sensor.daylight
+      state: solar_noon
+    - condition: state
+      entity_id: sensor.daylight
+      state: golden_hour_1
+  action:
+  - service: light.turn_on
+    data: {}
+    entity_id: light.sofa
+  - service: light.turn_on
+    data: {}
+    entity_id: light.wohnzimmer
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.deko1
+  mode: single
+- id: '1605726094744'
+  alias: Wohnzimmer - Licht an abends
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: sensor.daylight
+    to: golden_hour_2
+  - platform: state
+    entity_id: sensor.daylight
+    to: sunset_start
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: media_player.fernseher
+      state: 'off'
+  action:
+  - service: light.turn_on
+    data: {}
+    entity_id: light.wohnzimmer
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.deko1
+  - service: light.turn_on
+    data: {}
+    entity_id: light.sofa
+  mode: single
+- id: '1605726217817'
+  alias: Wohnzimmer - Fernseher aus
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: media_player.fernseher
+    to: 'off'
+  condition: []
+  action:
+  - service: light.turn_off
+    data: {}
+    entity_id: light.lixie_clock
+  - service: light.turn_off
+    data: {}
+    entity_id: light.sofa
+  - service: light.turn_off
+    data: {}
+    entity_id: light.wohnzimmer
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.deko1
+  - service: climate.set_temperature
+    data:
+      temperature: '{{ states(''input_number.temperatur_niedrig'') }}'
+    entity_id: climate.000a18a9aa571d
+  - type: turn_off
+    device_id: 412036f16a3f49ca8d9705fc2789b09c
+    entity_id: switch.soundsystem_relay
+    domain: switch
+  mode: single
+- id: '1605727576047'
+  alias: NFC Tag Käse ist gescannt
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 889be5ea-f216-4ad3-b27a-ff50f002f559
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: home/shopping/add-to-list
+      payload: Käse
+  mode: single
+- id: '1606147147845'
+  alias: NFC Tag Nüsse ist gescannt
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 49fb270a-e1b0-4ca4-a3a6-1a0f8c5e8e72
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: home/shopping/add-to-list
+      payload: Nüsse
+  mode: single
+- id: '1606147286357'
+  alias: NFC Tag Duschgel ist gescannt
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 654305b8-9a25-4377-b3f4-23d1754e47ca
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: home/shopping/add-to-list
+      payload: Duschgel
+  mode: single
+- id: '1606147307542'
+  alias: NFC Tag Aufschnitt ist gescannt
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: a1643921-b87d-4f27-b440-326ceae6c94f
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: home/shopping/add-to-list
+      payload: Aufschnitt
+  mode: single
+- id: '1606147347246'
+  alias: NFC Tag Möhren ist gescannt
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 1b4a8064-d93d-46dd-9432-438463263a74
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: home/shopping/add-to-list
+      payload: Möhren
+  mode: single
+- id: '1606147375988'
+  alias: NFC Tag Waschmittel ist gescannt
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 3719df18-511c-4ff4-836f-4e3e2e382158
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: home/shopping/add-to-list
+      payload: Waschmittel
+  mode: single
+- id: '1606147409459'
+  alias: NFC Tag Apfel ist gescannt
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: 44ff418a-c6b2-426b-a754-c4cc0715a33e
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: home/shopping/add-to-list
+      payload: Äpfel
+  mode: single
+- id: '1606147746468'
+  alias: NFC Tag Einkaufswagen ist gescannt
+  description: ''
+  trigger:
+  - platform: tag
+    tag_id: a13ea189-1c9e-4cc2-83db-884c5daf2950
+  condition: []
+  action:
+  - service: mqtt.publish
+    data:
+      topic: home/shopping/add-to-list
+      payload: Aufschnitt
+  - delay: 00:00:02
+  - service: mqtt.publish
+    data:
+      topic: home/shopping/add-to-list
+      payload: Käse
+  - delay: 00:00:02
+  - service: mqtt.publish
+    data:
+      topic: home/shopping/add-to-list
+      payload: Möhren
+  - delay: 00:00:02
+  - service: mqtt.publish
+    data:
+      topic: home/shopping/add-to-list
+      payload: Gurke
+  mode: single
+- id: '1607528177324'
+  alias: Deko an
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.dekoration
+    to: 'on'
+  condition: []
+  action:
+  - type: turn_on
+    device_id: fb1262d464eb4c734a0f222d29ed6f40
+    entity_id: switch.on_off_plug_in_unit_4
+    domain: switch
+  - delay: 00:00:01
+  - type: turn_on
+    device_id: a04d50e2c9a72ddfb15ef39df14be535
+    entity_id: switch.deko_3_relay
+    domain: switch
+  - delay: 00:00:01
+  - type: turn_on
+    device_id: 92c933a44c924ac6b5883762ed3b9376
+    entity_id: switch.deko_kueche_relay
+    domain: switch
+  mode: single
+- id: '1607528368734'
+  alias: Deko aus
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.dekoration
+    to: 'off'
+  condition: []
+  action:
+  - type: turn_off
+    device_id: fb1262d464eb4c734a0f222d29ed6f40
+    entity_id: switch.on_off_plug_in_unit_4
+    domain: switch
+  - delay: 00:00:01
+  - type: turn_off
+    device_id: a04d50e2c9a72ddfb15ef39df14be535
+    entity_id: switch.deko_3_relay
+    domain: switch
+  - delay: 00:00:01
+  - type: turn_off
+    device_id: 92c933a44c924ac6b5883762ed3b9376
+    entity_id: switch.deko_kueche_relay
+    domain: switch
+  mode: single
+- id: '1607708148192'
+  alias: Arbeitsplatz an
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.arbeitsplatz
+    to: 'on'
+  condition: []
+  action:
+  - service: automation.trigger
+    data: {}
+    entity_id: automation.buro_green_button_klick
+  mode: single
+- id: '1607708395174'
+  alias: Arbeitsplatz aus
+  description: ''
+  trigger:
+  - platform: state
+    entity_id: input_boolean.arbeitsplatz
+    to: 'off'
+  condition: []
+  action:
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.big_whoop
+  - wait_for_trigger:
+    - platform: state
+      entity_id: switch.big_whoop
+      to: 'off'
+    timeout: 00:01
+    continue_on_timeout: true
+  - service: light.turn_off
+    data: {}
+    entity_id: light.led_leiste_thomas
+  - service: climate.set_temperature
+    data:
+      temperature: '{{ states(''input_number.temperatur_niedrig'') }}'
+    entity_id: climate.00201a49a039a4
+  - delay: 00:00:20
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.sonoff_rechner
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.on_off_plug_in_unit_8
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.on_off_plug_leiste_1
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.on_off_plug_leiste_2
+  - service: switch.turn_off
+    data: {}
+    entity_id: switch.on_off_plug_leiste_3
+  mode: single

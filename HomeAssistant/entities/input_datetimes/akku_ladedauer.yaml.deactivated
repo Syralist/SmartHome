@@ -1,0 +1,3 @@
+akku_ladedauer:
+  name: Akku Ladedauer
+  has_time: true

@@ -1,3 +1,4 @@
 vicare:
   username: !secret vicare_user
   password: !secret vicare_pass
+  heating_type: gas

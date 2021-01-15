@@ -1,0 +1,5 @@
+platform: statistics
+entity_id: sensor.processor_use
+name: CPU Usage Statistics
+max_age:
+  hours: 12

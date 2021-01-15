@@ -1,0 +1,8 @@
+platform: sql
+scan_interval: 3600
+db_url: !secret maria_url
+queries:
+- name: HassDB
+  query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / 1024 / 1024, 2) "value" FROM information_schema.tables WHERE table_schema="homeassistant" GROUP BY table_schema;'
+  column: 'value'
+  unit_of_measurement: MB

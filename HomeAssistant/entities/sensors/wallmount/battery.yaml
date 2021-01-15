@@ -1,0 +1,4 @@
+platform: mqtt
+name: Wallmount Battery Temperature
+state_topic: "wallmount/deviceInfo/524076da-e7e412a5"
+value_template: "{{ value_json.batteryTemperature }}"

@@ -1,0 +1,5 @@
+platform: mqtt
+name: Wallmount Bewegung Event
+state_topic: "wallmount/event/onMotion/524076da-e7e412a5"
+value_template: "{{ value_json.event }}"
+expire_after: 5

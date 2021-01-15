@@ -1,0 +1,22 @@
+platform: template
+sensors:
+  octoprint_time_elapsed_readable:
+    friendly_name: OctoPrint Time Elapsed
+    icon_template: mdi:clock-start
+    value_template: >-
+      {% set timevalue = states("sensor.octoprint_time_elapsed") | int %}
+      {%- set sep = ' ' -%}
+      {%- set TIME_MAP = {
+                            'w': (timevalue / 604800) % 604800,
+                            'd': (timevalue / 86400) % 7,
+                            'h': (timevalue / 3600) % 24,
+                            'm': (timevalue / 60) % 60,
+                            's': (timevalue % 60)
+                        }
+      -%}
+      {%- for unit, duration in TIME_MAP.items() if duration >= 1 -%}
+                  {%- if not loop.first -%}
+                    {{ sep }}
+                  {%- endif -%}
+                  {{ (duration | string).split('.')[0] }}{{ unit }}
+      {%- endfor -%}

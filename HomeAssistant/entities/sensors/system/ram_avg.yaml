@@ -1,0 +1,5 @@
+platform: statistics
+entity_id: sensor.memory_use_percent
+name: Memory Usage Statistics
+max_age:
+  hours: 12

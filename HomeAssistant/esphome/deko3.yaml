@@ -1,0 +1,8 @@
+substitutions:
+  plug_name: deko_3
+  # Higher value gives lower watt readout
+  current_res: "0.00221"
+  # Lower value gives lower voltage readout
+  voltage_div: "800"
+
+<<: !include teckin_template.yaml

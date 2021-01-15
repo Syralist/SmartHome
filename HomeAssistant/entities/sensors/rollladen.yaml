@@ -1,4 +1,0 @@
-platform: mqtt
-name: "Rollladen Thomas Temperatur"
-state_topic: "shellies/shellyswitch25-thomas/temperature"
-unit_of_measurement: "°C"

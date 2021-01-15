@@ -1,0 +1,6 @@
+platform: template
+sensors:
+  motion_wallmount:
+    friendly_name: "Wallmount Bewegungsmelder"
+    device_class: motion
+    value_template: "{{ is_state('sensor.wallmount_bewegung_event', 'onMotion') }}"

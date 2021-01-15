@@ -11,7 +11,7 @@ binary_sensor.waschmaschine:
   icon: mdi:washing-machine
 binary_sensor.fenster_kuche:
   device_class: window
-binary_sensor.fenster_steffi:
+binary_sensor.fenster_buero:
   device_class: window
 binary_sensor.fenster_wohnzimmer:
   device_class: door
@@ -95,3 +95,13 @@ sensor.vicare_aussentemperatur:
   icon: mdi:thermometer-lines
 light.led_leiste_thomas:
   icon: mdi:led-strip
+sensor.hassdb:
+  icon: mdi:database
+switch.octoprint_cancel:
+  icon: mdi:cancel
+switch.octoprint_pause:
+  icon: mdi:pause
+plant.peace_lily:
+  friendly_name: Peace Lily
+plant.kleine_lilie:
+  friendly_name: Kleine Lilie

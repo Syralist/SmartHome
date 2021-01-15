@@ -1,0 +1,39 @@
+esphome:
+  name: wordclock
+  platform: ESP8266
+  board: d1_mini
+  includes:
+    - wordclock_light.h
+  libraries:
+    - "FastLED"
+
+wifi:
+  ssid: !secret wifi-ssid
+  password: !secret wifi-password
+
+# Enable logging
+logger:
+  level: DEBUG
+  esp8266_store_log_strings_in_flash: False
+
+# Enable Home Assistant API
+api:
+  password: !secret esphome-password
+
+ota:
+  password: !secret esphome-password
+
+time:
+  - platform: homeassistant
+    id: HA_time
+
+light:
+  - platform: custom
+    lambda: |-
+      auto light_out = new WordclockLightOutput();
+      App.register_component(light_out);
+      return {light_out};
+    
+    lights:
+      - name: "Wordclock"
+        id: "wordclock_clock"

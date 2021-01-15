@@ -1,0 +1,8 @@
+platform: command_line
+scan_interval: 5
+switches:
+  octoprint_cancel:
+    friendly_name: "Octoprint ABBRUCH"
+    command_on: !secret octoprint_cancel
+    command_state: "curl http://192.168.2.70/api/printer"
+    value_template: "{{ '\"cancelling\": true' in value }}"

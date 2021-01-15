@@ -1,0 +1,9 @@
+platform: command_line
+scan_interval: 5
+switches:
+  octoprint_pause:
+    friendly_name: "Octoprint PAUSE"
+    command_on: !secret octoprint_pause
+    command_off: !secret octoprint_resume
+    command_state: "curl http://192.168.2.70/api/printer"
+    value_template: "{{ '\"paused\": true' in value }}"

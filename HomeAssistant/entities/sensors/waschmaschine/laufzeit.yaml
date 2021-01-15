@@ -1,0 +1,16 @@
+platform: template
+sensors:
+  laufzeit_waschmaschine:
+    # entity_id: sensor.waschmaschine_leistung_average
+    value_template: >-
+      {% set dummy = states("sensor.waschmaschine_leistung_average") %}
+      Die Waschmaschine {% if is_state("binary_sensor.waschmaschine", "on") -%}
+      läuft {% set zeit = (as_timestamp(now())-as_timestamp(states.binary_sensor.waschmaschine.last_updated)) / 60 %}
+      {% if zeit < 60 -%}
+      seit {{zeit | int}} Minuten.
+      {%- else -%}
+      seit {{ ( zeit / 60 ) | int }} Stunden, {{ ( zeit - ( ( zeit / 60 ) | int ) * 60 ) | int }} Minuten.
+      {%- endif %}
+      {%- else -%}
+      ist aus.
+      {%- endif %}

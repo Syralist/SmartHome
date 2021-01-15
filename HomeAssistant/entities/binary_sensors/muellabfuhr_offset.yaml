@@ -1,0 +1,8 @@
+platform: template
+sensors:
+  muellabfuhr_offset:
+    friendly_name: "Müllabfuhr Offset aktiv"
+    value_template: "{{ state_attr('calendar.jarvis_muellabfuhr', 'offset_reached') }}"
+  muell_vegesack_offset:
+    friendly_name: "Müll Vegesacker Offset aktiv"
+    value_template: "{{ state_attr('calendar.jarvis_muell_vegesacker', 'offset_reached') }}"

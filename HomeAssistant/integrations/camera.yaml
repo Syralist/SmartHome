@@ -1,0 +1,13 @@
+camera:
+  #- platform: mjpeg
+  #  name: OctoPrint
+  #  still_image_url: http://octopi.local:8080/?action=snapshot
+  #  mjpeg_url: http://octopi.local/webcam/?action=stream
+  - platform: ffmpeg
+    name: OctoPrintFfmpeg
+    input: http://octopi.local/webcam/?action=stream
+    extra_arguments: -vf hflip -vf vflip
+  #  extra_arguments: -vf transpose=1
+  - platform: generic
+    name: Wallmount
+    still_image_url: !secret wallmount_camera_url

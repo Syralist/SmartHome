@@ -1,0 +1,14 @@
+peace_lily:
+  sensors:
+    moisture: sensor.ble_moisture_peace_lily
+    temperature: sensor.ble_temperature_peace_lily
+    conductivity: sensor.ble_conductivity_peace_lily
+    brightness: sensor.ble_illuminance_peace_lily
+  min_brightness: 1000
+  max_brightness: 22500
+  min_temperature: 15
+  max_temperature: 32
+  min_moisture: 15
+  max_moisture: 65
+  min_conductivity: 350
+  max_conductivity: 2000

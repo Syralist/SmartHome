@@ -1,5 +1,6 @@
 platform: template
 sensors:
-  zirkulationspumpe:
-    friendly_name: "Zirkulationspumpe"
-    value_template: "{{ state_attr('climate.vicare_heating', 'circulationpump_active') }}"
+  vicare_heizkreisaktiv:
+    friendly_name: "Heizkreis aktiv"
+    value_template: "{{ is_state_attr('climate.vicare_heating', 'active_vicare_mode', 'dhwAndHeating') or is_state_attr('climate.vicare_heating', 'active_vicare_mode', 'forcedNormal') }}"
+    device_class: heat

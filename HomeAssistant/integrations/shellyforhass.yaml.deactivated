@@ -1,0 +1,4 @@
+shelly:
+  discovery: true  #add all devices (default)
+  sensors:
+    - all #show all sensors

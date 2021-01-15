@@ -1,0 +1,3 @@
+hacs:
+  token: !secret hacs_github
+  sidepanel_icon: hacs:hacs

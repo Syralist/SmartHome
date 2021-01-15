@@ -1,5 +1,0 @@
-platform: cups
-host: 192.168.2.101
-is_cups_server: false
-printers:
-  - ipp/print

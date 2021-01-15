@@ -1,6 +1,6 @@
 platform: androidtv
-host: 192.168.2.50
-name: Fernseher
+host: 192.168.2.53
+name: Glotze
 adb_server_ip: 127.0.0.1
 apps:
     tv.twitch.android.app: "Twitch"
